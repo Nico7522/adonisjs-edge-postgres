@@ -1,0 +1,38 @@
+@import 'flowbite';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  @font-face {
+    font-family: 'reddit';
+    src: url(/fonts/RedditSans-Italic-VariableFont_wght.ttf) format('woff2');
+  }
+  @font-face {
+    font-family: 'lato';
+    src: url(/fonts/Lato-Light.ttf) format('woff2');;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background: #000;
+  padding: 0;
+}
+
+
+
+
+
+form {
+  width: 70%;
+  margin: auto;
+  height: 500px;
+}
+

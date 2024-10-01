@@ -1,0 +1,6 @@
+@let(nodeName = $props.has('href') ? 'a' : 'button')
+
+<{{nodeName}}
+    {{$props.toAttrs()}}>
+  {{{ await $slots.main() }}}
+</{{nodeName}}>
