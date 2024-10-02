@@ -5,6 +5,7 @@ import Watchlist from './watchlist.js'
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import Actor from './actor.js'
 import { MovieDetailsVM, MovieVM } from '#view_models/movie'
+import Genre from './genre.js'
 export default class Movie extends BaseModel {
   #setRatingStars(movie: Movie) {
     let ratingStars = ''
@@ -92,6 +93,12 @@ export default class Movie extends BaseModel {
     pivotTimestamps: true,
   })
   declare actors: ManyToMany<typeof Actor>
+
+  @manyToMany(() => Genre, {
+    pivotTable: 'genre_movies',
+    pivotTimestamps: true,
+  })
+  declare genres: ManyToMany<typeof Genre>
 
   @beforeCreate()
   static async slugify(movie: Movie) {

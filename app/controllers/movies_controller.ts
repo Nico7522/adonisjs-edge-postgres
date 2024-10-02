@@ -8,8 +8,9 @@ export default class MoviesController {
 
   async index({ request, view }: HttpContext) {
     const qs = request.qs()
+    const sortOptions = this.movieService.moviesSortOptions
     const moviesVM = await this.movieService.getMovie(qs)
-    return view.render('pages/movie/movies', { movies: moviesVM })
+    return view.render('pages/movie/movies', { movies: moviesVM, sortOptions, filter: qs })
   }
 
   async show({ view, params }: HttpContext) {

@@ -1,11 +1,51 @@
 import Movie from '#models/movie'
 import Watchlist from '#models/watchlist'
 import { MovieDetailsVM, MovieVM } from '#view_models/movie'
+
+type MovieSortOptions = {
+  id: string
+  text: string
+  field: keyof Movie
+  dir: 'asc' | 'desc' | undefined
+}
 export default class MovieService {
+  moviesSortOptions: MovieSortOptions[] = [
+    {
+      id: 'title_asc',
+      text: 'Title (asc)',
+      field: 'title',
+      dir: 'asc',
+    },
+    {
+      id: 'title_desc',
+      text: 'Title (desc)',
+      field: 'title',
+      dir: 'desc',
+    },
+    {
+      id: 'rating_asc',
+      text: 'Rating (asc)',
+      field: 'rating',
+      dir: 'asc',
+    },
+    {
+      id: 'rating_desc',
+      text: 'Rating (desc)',
+      field: 'rating',
+      dir: 'desc',
+    },
+  ]
   async getMovie(qs: Record<string, any>) {
-    const movies = await Movie.query().if(qs.search, (query) => {
-      query.whereILike('title', `%${qs.search}%`)
-    })
+    if (qs.sort) {
+      qs.sort = qs.sort.trim()
+    }
+    const sort = this.moviesSortOptions.find((o) => o.id == qs.sort) || this.moviesSortOptions[0]
+
+    const movies = await Movie.query()
+      .if(qs.search, (query) => {
+        query.whereILike('title', `%${qs.search}%`)
+      })
+      .orderBy(sort.field, sort.dir)
     let moviesVM: MovieVM[] = this.#mapMovie(movies)
     return moviesVM
   }

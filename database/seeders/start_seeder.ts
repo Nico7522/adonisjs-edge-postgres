@@ -1,6 +1,7 @@
 import { UserFactory } from '#database/factories/user_factory'
 import Roles from '#enums/role'
 import Actor from '#models/actor'
+import Genre from '#models/genre'
 import Movie from '#models/movie'
 import Role from '#models/role'
 import Watchlist from '#models/watchlist'
@@ -213,6 +214,30 @@ export default class extends BaseSeeder {
       },
     ])
 
+    const genres = await Genre.createMany([
+      {
+        name: 'Horror',
+      },
+      {
+        name: 'Crime',
+      },
+      {
+        name: 'Drama',
+      },
+      {
+        name: 'Action',
+      },
+      {
+        name: 'Thriller',
+      },
+      {
+        name: 'Adventure',
+      },
+      {
+        name: 'Fantasy',
+      },
+    ])
+
     await UserFactory.createMany(5)
     const watchlists = await Watchlist.createMany([
       {
@@ -233,6 +258,7 @@ export default class extends BaseSeeder {
     ])
     await this.#attachActors(actors, movies)
     await this.#attachMovies(watchlists, movies)
+    await this.#attachGenres(genres, movies)
   }
 
   async #attachMovies(watchlists: Watchlist[], movies: Movie[]) {
@@ -249,8 +275,22 @@ export default class extends BaseSeeder {
     }
   }
 
+  async #attachGenres(genres: Genre[], movies: Movie[]) {
+    const genreIds = await this.#getId(genres)
+    for (const movie of movies) {
+      const min = this.#getRandomNumber(Math.random(), genreIds.length)
+      const randomGenreIds = genreIds.slice(min, this.#getRandomNumber(min, genreIds.length))
+
+      await movie.related('genres').attach(randomGenreIds)
+    }
+  }
+
   async #getId<T extends { id: number }>(array: T[]): Promise<number[]> {
     const ids = array.map(({ id }) => id)
     return ids
+  }
+
+  #getRandomNumber(min: number, max: number): number {
+    return Math.floor(min * max)
   }
 }

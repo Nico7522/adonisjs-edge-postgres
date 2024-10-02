@@ -12,13 +12,19 @@
     @endif
   @endif
 </label>
-<input
-  class="{{ classNames }}"
-  required=""
-  {{ $props
-  .merge({value, type, placeholder})
-  .toAttrs() }}
-/>
+
+@if($props.type == 'select')
+  <select class="{{ classNames }}" {{ $props
+  .merge({value, type, required, placeholder})
+  .toAttrs() }}>
+    {{{ await $slots.main( ) }}}
+  </select>
+@else
+  <input class="{{ classNames }}" {{ $props
+ .merge({value, type, required, placeholder})
+ .toAttrs() }} />
+@endif
+
 @if(name)
   @inputError(name)
     <span class="text-red-500">
