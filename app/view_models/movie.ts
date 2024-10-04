@@ -1,5 +1,5 @@
 import Actor from '#models/actor'
-import Movie from '#models/movie'
+import Genre from '#models/genre'
 
 export type MovieVM = {
   type?: 'ViewModel'
@@ -15,4 +15,5 @@ export type MovieDetailsVM = MovieVM & {
   actors: Actor[]
   realisator: string
   releaseDate: string
+  genres: Genre[]
 }

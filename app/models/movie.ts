@@ -9,7 +9,7 @@ import Genre from './genre.js'
 export default class Movie extends BaseModel {
   #setRatingStars(movie: Movie) {
     let ratingStars = ''
-    if (movie.rating > 0) {
+    if (movie.rating && movie.rating > 0) {
       let i = movie.rating
       while (i > 0) {
         ratingStars += '★'
@@ -21,11 +21,9 @@ export default class Movie extends BaseModel {
   }
   toMovieVM(movie: this): MovieVM {
     return {
-      ...this,
       id: this.id,
       summary: this.summary,
       slug: this.slug,
-      rating: this.rating,
       image: this.image,
       title: movie.title,
       ratingStars: this.#setRatingStars(movie),
@@ -34,11 +32,9 @@ export default class Movie extends BaseModel {
 
   toMovieDetailsVM(movie: this): MovieDetailsVM {
     return {
-      ...this,
       id: this.id,
       summary: this.summary,
       slug: this.slug,
-      rating: this.rating,
       image: this.image,
       title: movie.title,
       releaseDate: new Date(this.releaseDate.toString()).toLocaleDateString('en-US', {
@@ -48,6 +44,7 @@ export default class Movie extends BaseModel {
       }),
       ratingStars: this.#setRatingStars(movie),
       actors: this.actors,
+      genres: this.genres,
       realisator: this.realisator,
     }
   }
@@ -61,7 +58,7 @@ export default class Movie extends BaseModel {
   declare summary: string
 
   @column()
-  declare rating: number
+  declare rating: number | null
 
   @column()
   declare image: string | null
@@ -139,5 +136,12 @@ export default class Movie extends BaseModel {
     const increment = incrementors.length ? Math.max(...incrementors) + 1 : 1
 
     movie.slug = `${slug}-${increment}`
+  }
+
+  @beforeCreate()
+  static async checkIfRatingCanBeSet(movie: Movie) {
+    if (movie.rating !== null && movie.releaseDate > DateTime.now()) {
+      throw new Error("Rating can't be set for a unreleased movie")
+    }
   }
 }

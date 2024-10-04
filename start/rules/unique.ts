@@ -1,6 +1,7 @@
 import { FieldContext } from '@vinejs/vine/types'
 import db from '@adonisjs/lucid/services/db'
 import vine, { VineNumber, VineString } from '@vinejs/vine'
+
 type Options = {
   table: string
   column: string
@@ -25,7 +26,6 @@ export const isUniqueRule = vine.createRule(isUnique)
 declare module '@vinejs/vine' {
   interface VineString {
     isUnique(options: Options): this
-    hello(): void
   }
   interface VineNumber {
     isUnique(options: Options): this

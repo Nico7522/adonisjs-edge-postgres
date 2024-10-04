@@ -54,8 +54,8 @@ export default class extends BaseSeeder {
     const movies = await Movie.createMany([
       {
         title: 'Superman',
-        rating: 5,
         realisator: 'Richard Donner',
+        rating: null,
         releaseDate: DateTime.fromISO('2025-07-11'),
         summary:
           "Juste avant l'explosion de la planète Krypton, Jor-El décide de sauver son fils en l'envoyant sur Terre. Le nourrisson est recueilli par le couple Kent qui décide de l'élever comme leur propre fils. L'enfant se met à développer des pouvoirs hors du commun. Une fois adulte, Clark Kent, journaliste au Daily Planet, souhaite mener une vie normale. Il ne renie pas pour autant ses capacités à sauver le monde et devient alors Superman.",

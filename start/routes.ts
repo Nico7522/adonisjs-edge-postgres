@@ -20,6 +20,8 @@ router.get('/', [HomeController, 'index']).as('home')
 router.get('/movies', [MoviesController, 'index']).as('movies.index')
 router.get('/coming', [MoviesController, 'getComing']).as('movies.coming')
 router.get('/top', [MoviesController, 'getMostRated']).as('movies.top')
+router.get('/movies/create', [MoviesController, 'create']).as('movies.create')
+router.post('/movies/create', [MoviesController, 'store']).as('movies.store')
 
 router.get('/movies/:slug', [MoviesController, 'show']).as('movies.show')
 

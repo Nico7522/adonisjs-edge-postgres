@@ -1,4 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
+import { rule } from 'postcss'
 
 export default class extends BaseSchema {
   protected tableName = 'movies'
@@ -10,7 +11,7 @@ export default class extends BaseSchema {
       table.timestamp('release_date').nullable()
       table.string('realisator', 100).notNullable()
       table.text('summary').notNullable()
-      table.integer('rating').notNullable()
+      table.integer('rating').nullable()
       table.string('image').nullable()
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').notNullable()

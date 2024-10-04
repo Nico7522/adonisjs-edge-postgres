@@ -1,5 +1,5 @@
 import Roles from '#enums/role'
-import { Exception } from '@adonisjs/core/exceptions'
+import UnAuthorizedException from '#exceptions/un_authorized_exception'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 
@@ -8,7 +8,7 @@ export default class AdminMiddleware {
     const isAdmin = ctx.auth.user?.roleId === Roles.ADMIN
 
     if (!isAdmin) {
-      throw new Exception('Not authorized')
+      throw new UnAuthorizedException()
     }
     const output = await next()
     return output

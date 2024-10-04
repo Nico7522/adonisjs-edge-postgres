@@ -1,13 +1,9 @@
 import Movie from '#models/movie'
 import Watchlist from '#models/watchlist'
 import { MovieDetailsVM, MovieVM } from '#view_models/movie'
+// @ts-ignore
+import { MovieSortOptions } from '#types/movie_sort_options'
 
-type MovieSortOptions = {
-  id: string
-  text: string
-  field: keyof Movie
-  dir: 'asc' | 'desc' | undefined
-}
 export default class MovieService {
   moviesSortOptions: MovieSortOptions[] = [
     {
@@ -58,7 +54,11 @@ export default class MovieService {
   }
 
   async getOne(slug: string) {
-    let movie = await Movie.query().where('slug', slug).preload('actors').firstOrFail()
+    let movie = await Movie.query()
+      .where('slug', slug)
+      .preload('actors')
+      .preload('genres')
+      .firstOrFail()
 
     let movieDetailsVM: MovieDetailsVM = movie.toMovieDetailsVM(movie)
     return movieDetailsVM

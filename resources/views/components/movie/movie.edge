@@ -2,7 +2,11 @@
   class="flex flex-col border-2 my-5 text-white rounded-xl border-blue-300 bg-gray-700 font-reddit"
 >
   <div class="flex flex-col xl:flex-row">
-    <img src="{{ movie.image }}" alt="" class="h-32 w-28 mx-5 my-5" />
+    <img
+      src="{{ 'http://localhost:3333/storage/uploads/' + movie.image }}"
+      alt=""
+      class="h-32 w-28 mx-5 my-5"
+    />
     <h3 class="py-7 text-4xl ml-5">
       {{ movie.title }}
     </h3>

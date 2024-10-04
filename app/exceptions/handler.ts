@@ -14,13 +14,16 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * codes. You might want to enable them in production only, but feel
    * free to enable them in development as well.
    */
-  protected renderStatusPages = app.inProduction
+  protected renderStatusPages = true
 
   /**
    * Status pages is a collection of error code range and a callback
    * to return the HTML contents to send as a response.
    */
   protected statusPages: Record<StatusPageRange, StatusPageRenderer> = {
+    '403': (error, { view }) => {
+      return view.render('pages/errors/unauthorized', { error })
+    },
     '404': (error, { view }) => {
       return view.render('pages/errors/not_found', { error })
     },
@@ -34,6 +37,8 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    console.log('cc')
+
     return super.handle(error, ctx)
   }
 
