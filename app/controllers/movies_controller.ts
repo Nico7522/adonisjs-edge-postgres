@@ -5,11 +5,10 @@ import { inject } from '@adonisjs/core'
 import MovieSortOptions from '#types/movie_sort_options'
 import app from '@adonisjs/core/services/app'
 import Movie from '#models/movie'
-import { title } from 'process'
 import { cuid } from '@adonisjs/core/helpers'
-import { movieValidator } from '#validators/movie'
-import { moveCursor } from 'readline'
 import { DateTime } from 'luxon'
+import { movieValidator } from '#validators/movie'
+import { errors } from '@vinejs/vine'
 
 @inject()
 export default class MoviesController {
@@ -62,8 +61,10 @@ export default class MoviesController {
   }
   async store({ view, request }: HttpContext) {
     const data = await request.validateUsing(movieValidator)
+
     let newMovie = new Movie()
 
+    newMovie.rating = data.rating ? data.rating : null
     newMovie.title = data.title
     newMovie.summary = data.summary
     newMovie.realisator = data.realisator
@@ -79,10 +80,12 @@ export default class MoviesController {
       })
       newMovie.image = image.fileName!
     }
-
-    const movie = await Movie.create(newMovie)
-
-    return view.render('pages/movie/create')
+    try {
+      await Movie.create(newMovie)
+      return view.render('pages/movie/create')
+    } catch (error) {
+      return view.render('pages/movie/create')
+    }
   }
 }
 // const movies = await Movie.query()

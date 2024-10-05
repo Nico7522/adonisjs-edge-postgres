@@ -140,7 +140,7 @@ export default class Movie extends BaseModel {
 
   @beforeCreate()
   static async checkIfRatingCanBeSet(movie: Movie) {
-    if (movie.rating !== null && movie.releaseDate > DateTime.now()) {
+    if (movie.rating && movie.releaseDate > DateTime.now()) {
       throw new Error("Rating can't be set for a unreleased movie")
     }
   }
