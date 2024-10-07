@@ -1,9 +1,10 @@
 import Movie from '#models/movie'
 import Watchlist from '#models/watchlist'
-import { MovieDetailsVM, MovieVM } from '#view_models/movie'
+import { MovieDetailsVM, MovieVM, Pagination } from '#view_models/movie'
 // @ts-ignore
 import { MovieSortOptions } from '#types/movie_sort_options'
-
+import router from '@adonisjs/core/services/router'
+import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 export default class MovieService {
   moviesSortOptions: MovieSortOptions[] = [
     {
@@ -31,7 +32,7 @@ export default class MovieService {
       dir: 'desc',
     },
   ]
-  async getMovie(qs: Record<string, any>) {
+  async getMovie(page: number = 1, qs: Record<string, any>) {
     if (qs.sort) {
       qs.sort = qs.sort.trim()
     }
@@ -42,8 +43,20 @@ export default class MovieService {
         query.whereILike('title', `%${qs.search}%`)
       })
       .orderBy(sort.field, sort.dir)
-    let moviesVM: MovieVM[] = this.#mapMovie(movies)
-    return moviesVM
+      .paginate(page, 5)
+
+    movies.baseUrl(router.makeUrl('movies.index'))
+    movies.queryString(qs)
+    const rangeMin = movies.currentPage - 3
+    const rangeMax = movies.currentPage + 3
+    let pagination = movies.getUrlsForRange(1, movies.lastPage).filter((item) => {
+      return item.page >= rangeMin && item.page <= rangeMax
+    })
+
+    let moviesVM: Pagination = this.#mapMovieWithPagination(movies)
+    moviesVM.baseUrl(router.makeUrl('movies.index'))
+
+    return { moviesVM, pagination }
   }
 
   async getLast() {
@@ -53,15 +66,24 @@ export default class MovieService {
     return moviesVM
   }
 
-  async getOne(slug: string) {
+  async getOne(slug: string, userId: number | undefined) {
     let movie = await Movie.query()
       .where('slug', slug)
       .preload('actors')
       .preload('genres')
+
+      .if(userId !== undefined, (query) => {
+        query.preload('watchlists', (query) => {
+          query.where('user_id', userId!)
+        })
+      })
       .firstOrFail()
 
+    console.log(movie.watchlists)
+
     let movieDetailsVM: MovieDetailsVM = movie.toMovieDetailsVM(movie)
-    return movieDetailsVM
+
+    return { movieDetailsVM, inWatchlist: movie.watchlists.length > 0 }
   }
 
   static async setWatchedStatus() {
@@ -86,11 +108,30 @@ export default class MovieService {
     return moviesVM
   }
 
-  #mapMovie(movies: Movie[]): MovieVM[] {
+  #mapMovie(movies: Movie[]) {
     let moviesVM: MovieVM[] = movies.map((movie) => {
       return movie.toMovieVM(movie)
     })
 
     return moviesVM
+  }
+
+  #mapMovieWithPagination(movies: ModelPaginatorContract<Movie>): Pagination {
+    let moviesVM: MovieVM[] = movies.map((movie) => {
+      return movie.toMovieVM(movie)
+    })
+
+    let nextPageUrl = movies.getNextPageUrl()
+    return {
+      movies: moviesVM,
+      getUrl: movies.getUrl,
+      getPreviousPageUrl: movies.getPreviousPageUrl,
+      baseUrl: movies.baseUrl,
+      nextPageUrl,
+      firstPage: movies.firstPage,
+      lastPage: movies.lastPage,
+      currentPage: movies.currentPage,
+      hasPages: movies.hasPages,
+    }
   }
 }

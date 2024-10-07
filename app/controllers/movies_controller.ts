@@ -8,7 +8,6 @@ import Movie from '#models/movie'
 import { cuid } from '@adonisjs/core/helpers'
 import { DateTime } from 'luxon'
 import { movieValidator } from '#validators/movie'
-import { errors } from '@vinejs/vine'
 
 @inject()
 export default class MoviesController {
@@ -18,19 +17,24 @@ export default class MoviesController {
   }
 
   async index({ request, view }: HttpContext) {
+    const page = request.input('page')
     const qs = request.qs()
-    const moviesVM = await this.movieService.getMovie(qs)
+    const { moviesVM, pagination } = await this.movieService.getMovie(page, qs)
+
     return view.render('pages/movie/movies', {
-      movies: moviesVM,
+      moviesVM,
+      pagination: pagination,
       sortOptions: this.sortOptions,
       filter: qs,
     })
   }
 
-  async show({ view, params }: HttpContext) {
-    const movieDetailsVM = await this.movieService.getOne(params['slug'])
+  async show({ view, params, auth }: HttpContext) {
+    const userId = auth.user?.id
+    const { movieDetailsVM, inWatchlist } = await this.movieService.getOne(params['slug'], userId)
+    console.log(inWatchlist)
 
-    return view.render('pages/movie/movie', { movie: movieDetailsVM })
+    return view.render('pages/movie/movie', { movie: movieDetailsVM, inWatchlist })
   }
 
   async getComing({ request, view }: HttpContext) {
@@ -47,9 +51,9 @@ export default class MoviesController {
 
   async getMostRated({ request, view }: HttpContext) {
     const qs = request.qs()
-    const movieVM = await this.movieService.getMostRated()
+    const moviesVM = await this.movieService.getMostRated()
     return view.render('pages/movie/movies', {
-      movies: movieVM,
+      movies: moviesVM,
       title: 'Top movies',
       sortOptions: this.sortOptions,
       filter: qs,
@@ -59,7 +63,7 @@ export default class MoviesController {
   async create({ view }: HttpContext) {
     return view.render('pages/movie/create')
   }
-  async store({ view, request }: HttpContext) {
+  async store({ view, request, response }: HttpContext) {
     const data = await request.validateUsing(movieValidator)
 
     let newMovie = new Movie()
@@ -68,7 +72,7 @@ export default class MoviesController {
     newMovie.title = data.title
     newMovie.summary = data.summary
     newMovie.realisator = data.realisator
-    newMovie.releaseDate = DateTime.fromJSDate(data.releaseDate!)
+    newMovie.releaseDate = data.releaseDate ? DateTime.fromJSDate(data.releaseDate!) : null
     const image = request.file('image', {
       size: '2mb',
       extnames: ['jpg', 'png', 'jpeg'],
@@ -81,8 +85,8 @@ export default class MoviesController {
       newMovie.image = image.fileName!
     }
     try {
-      await Movie.create(newMovie)
-      return view.render('pages/movie/create')
+      const createdMovie = await Movie.create(newMovie)
+      return response.redirect().toRoute('movies.show', { slug: createdMovie.slug })
     } catch (error) {
       return view.render('pages/movie/create')
     }

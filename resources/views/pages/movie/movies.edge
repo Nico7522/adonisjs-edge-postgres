@@ -2,13 +2,66 @@
   <h2 class="text-white font-reddit text-5xl text-center mt-3">
     {{ title || 'Movies' }}
   </h2>
-
   <section class="py-5 px-7 xl:px-96">
     @!form.filter({sortOptions, filter})
 
-    @each(movie in movies)
-      @!movie.movie({ movie })
-    @end
+    @if(pagination)
+      @each(movie in moviesVM.movies)
+        @!movie.movie({ movie })
+      @end
+    @else()
+      @each(movie in movies)
+        @!movie.movie({ movie })
+      @end
+    @endif
   </section>
 
+  @if(pagination)
+    <div class="flex items-center mb-5 justify-center m-auto gap-2">
+      @if(moviesVM.hasPages)
+        <a
+          href="{{ moviesVM.getUrl(moviesVM.firstPage) }}"
+          class="text-white px-2 justify-center border bg-gray-700 border-blue-300"
+        >
+          &lt;&lt;
+      </a>
+      @end
+      @if(moviesVM.currentPage > moviesVM.firstPage)
+        <a
+          href="{{ moviesVM.getPreviousPageUrl() }}"
+          class="text-white px-2 justify-center border bg-gray-700 border-blue-300"
+        >
+          &lt;</a>
+      @end
+      @each(item in pagination)
+        <a
+          {{ html.attrs({
+        href: item.url,
+
+        class: [
+          "text-white px-2 justify-center border bg-gray-700 border-blue-300",
+          {'bg-indigo-300 text-white' : item.isActive}
+        ]
+      }) }}
+        >{{ item.page }}
+      </a>
+      @endeach
+      @if(moviesVM.currentPage < moviesVM.lastPage)
+        <a
+          href="{{ moviesVM.nextPageUrl }}"
+          class="text-white px-2 justify-center border bg-gray-700 border-blue-300"
+        >
+          ></a>
+      @end
+      @if(moviesVM.hasPages)
+        <a
+          href="{{ moviesVM.getUrl(moviesVM.lastPage) }}"
+          class="text-white px-2 justify-center border bg-gray-700 border-blue-300"
+        >
+          >></a>
+      @end
+    </div>
+
+  @end
+  
 @end

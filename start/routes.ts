@@ -12,6 +12,7 @@ const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const HomeController = () => import('#controllers/home_controller')
+const WatchlistsController = () => import('#controllers/watchlists_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
@@ -45,12 +46,14 @@ router
 
 router
   .group(() => {
-    router
-      .get('/', async ({ view }) => {
-        return view.render('pages/user')
-      })
-      .as('index')
+    // router.get('/', [WatchlistsController, 'toggle']).as('index')
   })
   .prefix('/admin')
   .as('admin')
 // .use(middleware.auth())
+
+router
+  .group(() => {
+    router.post('/watchlist/:slug/toggle', [WatchlistsController, 'toggle']).as('toggle')
+  })
+  .as('watchlist')

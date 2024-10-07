@@ -19,6 +19,7 @@ export default class Movie extends BaseModel {
 
     return ratingStars
   }
+
   toMovieVM(movie: this): MovieVM {
     return {
       id: this.id,
@@ -26,7 +27,6 @@ export default class Movie extends BaseModel {
       slug: this.slug,
       image: this.image,
       title: movie.title,
-      ratingStars: this.#setRatingStars(movie),
     }
   }
 
@@ -37,11 +37,13 @@ export default class Movie extends BaseModel {
       slug: this.slug,
       image: this.image,
       title: movie.title,
-      releaseDate: new Date(this.releaseDate.toString()).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }),
+      releaseDate: this.releaseDate
+        ? new Date(this.releaseDate.toString()).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        : null,
       ratingStars: this.#setRatingStars(movie),
       actors: this.actors,
       genres: this.genres,
@@ -64,7 +66,7 @@ export default class Movie extends BaseModel {
   declare image: string | null
 
   @column()
-  declare releaseDate: DateTime
+  declare releaseDate: DateTime | null
 
   @column()
   declare realisator: string
@@ -140,7 +142,7 @@ export default class Movie extends BaseModel {
 
   @beforeCreate()
   static async checkIfRatingCanBeSet(movie: Movie) {
-    if (movie.rating && movie.releaseDate > DateTime.now()) {
+    if (movie.rating && movie.releaseDate && movie.releaseDate > DateTime.now()) {
       throw new Error("Rating can't be set for a unreleased movie")
     }
   }
