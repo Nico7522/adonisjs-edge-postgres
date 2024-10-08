@@ -8,16 +8,23 @@ import { MovieDetailsVM, MovieVM } from '#view_models/movie'
 import Genre from './genre.js'
 export default class Movie extends BaseModel {
   #setRatingStars(movie: Movie) {
-    let ratingStars = ''
+    let rating = []
     if (movie.rating && movie.rating > 0) {
       let i = movie.rating
       while (i > 0) {
-        ratingStars += '★'
+        rating.push({
+          color: 'text-yellow-300',
+        })
         i--
+      }
+      while (rating.length < 5) {
+        rating.push({
+          color: 'text-gray-500',
+        })
       }
     }
 
-    return ratingStars
+    return rating
   }
 
   toMovieVM(movie: this): MovieVM {

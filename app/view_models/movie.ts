@@ -5,7 +5,7 @@ import { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
 
 export type MovieVM = {
   type?: 'ViewModel'
-  ratingStars?: string
+  ratingStars?: { color: string }[]
   id: number
   summary: string
   slug: string

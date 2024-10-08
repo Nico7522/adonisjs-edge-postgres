@@ -1,48 +1,96 @@
+
 @shared.layouts({title: 'Profile'})
+  <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 mx-10">
 
-  <main class="border-2 mt-5 border-blue-200 bg-gray-900 mx-11 h-5/6">
-    <div class="pl-5 pb-5 border-b-2 border-blue-200">
-      <h2
-        class="text-white text-3xl mt-5 text-center border-2 border-blue-200 bg-gray-700 rounded-lg w-72 py-2 font-reddit"
-      >
-        Informations
-      </h2>
-      <h3 class="text-white text-2xl mt-5">
-        {{ user.firstname + " " + user.lastname }}
-      </h3>
-      <h3 class="text-white text-2xl mt-5">
-        {{ formatedBirthdate }}
-      </h3>
-    </div>
-    <div class="pl-5 pb-5 border-b-2 border-blue-200">
-      <h2
-        class="text-white text-3xl mt-5 text-center border-2 border-blue-200 bg-gray-700 rounded-lg w-72 py-2 font-reddit"
-      >
-        Watchlist
-      </h2>
-      @if(user.watchlist.movies.length > 0)
-        <div class="mt-5 flex flex-row overflow-x-auto">
-          @each(movie in user.watchlist.movies)
-            <div class="mr-5">
-              <img
-                class="w-56 h-72"
-                src="https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg"
-              />
-              <p class="text-white mt-5 text-lg">
-                {{ movie.title }}
-              </p>
-
-            </div>
-          @end
-        </div>
-      @else
-        <h3 class="text-white text-2xl mt-5 mb-5">
-          No movies in watchlist
+    <div class="px-4 py-5 sm:px-6 flex justify-between">
+      <div>
+        <h3 class="text-lg leading-6 font-medium ">
+          Your profile
         </h3>
-        @shared.button({href: route('movies.index'), class: "lg:mx-2 my-3 p-2 text-white focus:border-2 focus:border-blue-300 rounded-lg text-center dark:bg-gray-700"})
-          Start to add movies !
-        @end
-      @endif
+        <p class="mt-1 max-w-2xl text-sm text-gray-200">
+          This is some information about the user.
+        </p>
+
+      </div>
+      @shared.button({class: "px-12 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+        Edit
+      @end
     </div>
-  </main>
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+      <dl class="sm:divide-y sm:divide-gray-200">
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-white">
+            Full name
+          </dt>
+          <dd class="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2">
+            {{ user.firstname + ' ' + user.lastname }}
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-white">
+            Email address
+          </dt>
+          <dd class="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2">
+            {{ user.email }}
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-white">
+            Phone number
+          </dt>
+          <dd class="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2">
+            (123) 456-7890
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-white">
+            Account created date
+          </dt>
+          <dd class="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2">
+            {{ user.createdAt.toFormat('dd/M/yyyy') }}
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 mx-10">
+
+    <div class="px-4 py-5 sm:px-6 flex justify-between">
+      <div>
+        <h3 class="text-lg leading-6 font-medium ">
+          Your Watchlist
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-200">
+          All informations about your movies
+        </p>
+
+      </div>
+      @shared.button({class: "px-12 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+        Add movies
+      @end
+    </div>
+    <div class="border-t flex border-gray-200 px-4 py-5 sm:p-0">
+      @each(movie in user.watchlist.movies)
+        <div class="py-3 text-2xl font-reddit flex flex-col gap-4 items-center ml-5">
+          {{ movie.title }}
+
+          <img src="https://picsum.photos/200/300" class="h-96" />
+
+          <div class="flex flex-row gap-1">
+            @shared.button({class: "px-2 font-mono py-2 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+              Remove
+            @end
+            @shared.button({class: "px-2 font-mono py-2 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+              Set watched
+            @end
+            
+          </div>
+        </div>
+
+      @end
+        
+    </div>
+  </div>
+
 @end

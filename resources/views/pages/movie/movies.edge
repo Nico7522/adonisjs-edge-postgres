@@ -3,12 +3,13 @@
   <div class="">
     @!form.filter({sortOptions, filter})
     @if(pagination)
-      @each(movie in moviesVM.movies)
-        @!movie.movie({ movie })
+      @each((movie, index) in moviesVM.movies)
+
+        @!movie.movie({ movie, last: index + 1 === moviesVM.movies.length })
       @end
     @else
-      @each(movie in movies)
-        @!movie.movie({ movie })
+      @each((movie, index) in movies)
+        @!movie.movie({ movie, last: index + 1 === movies.length })
       @end
     @endif
       

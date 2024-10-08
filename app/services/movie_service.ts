@@ -80,7 +80,6 @@ export default class MovieService {
       .firstOrFail()
 
     let movieDetailsVM: MovieDetailsVM = movie.toMovieDetailsVM(movie)
-
     return { movieDetailsVM, inWatchlist: movie.watchlists ? movie.watchlists.length > 0 : false }
   }
 

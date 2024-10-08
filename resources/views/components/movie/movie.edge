@@ -1,4 +1,11 @@
-<div class="flex flex-col my-5 text-white border-b-2 border-b-gray-900 font-reddit">
+<div
+  class="{{ html.classNames([
+    'flex flex-col my-5 text-white font-reddit',
+    {
+      'border-b-2 border-b-gray-200' : !last
+    }
+  ]) }}"
+>
   <div class="flex flex-col xl:flex-row">
     <div>
       <h3 class="text-4xl ml-5">
@@ -23,10 +30,25 @@
 
     </div>
   </div>
-  <p class="mx-5 my-5 ">
-    Rating : 
-    <span class="text-yellow-300">{{ movie.ratingStars }}</span>
-  </p>
+  <div class="flex items-center">
+    <h4 class="mx-5 my-5 text-2xl">
+      Rating :
+    </h4>
+    @each(item in movie.ratingStars)
+      <svg
+        class="w-4 h-4 {{ item.color }} me-1"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 22 20"
+      >
+        <path
+          d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+        />
+      </svg>
+    @end
+    
+  </div>
 
   @shared.button({href: route('movies.show', { slug: movie.slug}), class: "self-start mx-5 my-3 p-2  text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
     View Details

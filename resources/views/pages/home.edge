@@ -2,10 +2,10 @@
   <h2 class="text-white font-reddit text-5xl text-center mt-3">
     Last releases
   </h2>
-  <section class="py-5 px-7 xl:px-96">
-    @each(movie in movies)
+  <section class="py-5">
+    @each((movie, index) in movies)
 
-      @!component('components/movie/movie', { movie })
+      @!component('components/movie/movie', { movie, last: index + 1 === movies.length })
     @end
   </section>
 
