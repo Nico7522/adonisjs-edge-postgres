@@ -13,6 +13,7 @@ const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const HomeController = () => import('#controllers/home_controller')
 const WatchlistsController = () => import('#controllers/watchlists_controller')
+const ProfilesController = () => import('#controllers/profiles_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
@@ -26,6 +27,10 @@ router.post('/movies/create', [MoviesController, 'store']).as('movies.store')
 
 router.get('/movies/:slug', [MoviesController, 'show']).as('movies.show')
 
+// Profile
+router.get('/profile', [ProfilesController, 'index']).as('profile.index').use(middleware.auth())
+
+// Auth
 router
   .group(() => {
     router

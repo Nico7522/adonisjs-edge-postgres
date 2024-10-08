@@ -27,6 +27,7 @@ export default class Movie extends BaseModel {
       slug: this.slug,
       image: this.image,
       title: movie.title,
+      ratingStars: this.#setRatingStars(movie),
     }
   }
 

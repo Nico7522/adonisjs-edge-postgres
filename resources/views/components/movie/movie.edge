@@ -1,23 +1,28 @@
-<div
-  class="flex flex-col border-2 my-5 text-white rounded-xl border-blue-300 bg-gray-700 font-reddit"
->
+<div class="flex flex-col my-5 text-white border-b-2 border-b-gray-900 font-reddit">
   <div class="flex flex-col xl:flex-row">
-    <img
-      src="{{ 'http://localhost:3333/storage/uploads/' + movie.image }}"
-      alt=""
-      class="h-32 w-28 mx-5 my-5"
-    />
-    <h3 class="py-7 text-4xl ml-5">
-      {{ movie.title }}
-    </h3>
+    <div>
+      <h3 class="text-4xl ml-5">
+        {{ movie.title }}
+      </h3>
+      <img
+        src="https://picsum.photos/200/300"
+        alt=""
+        class="h-72 w-56 mx-5 my-5"
+        {{-- src="{{ 'http://localhost:3333/storage/uploads/' + movie.image }}" --}}
+      />
 
+    </div>
+
+    <div class=" xl:ml-10 flex flex-col flex-grow">
+      <h4 class="mx-5 pt-2 text-2xl">
+        Summary :
+      </h4>
+      <p class="mx-5 my-5 selft-start text-xl break-words font-lato">
+        {{ movie.summary }}
+      </p>
+
+    </div>
   </div>
-  <h4 class="mx-5 text-2xl">
-    Summary :
-  </h4>
-  <p class="mx-5 my-5 text-xl break-words font-lato">
-    {{ truncate(movie.summary,20) }}
-  </p>
   <p class="mx-5 my-5 ">
     Rating : 
     <span class="text-yellow-300">{{ movie.ratingStars }}</span>

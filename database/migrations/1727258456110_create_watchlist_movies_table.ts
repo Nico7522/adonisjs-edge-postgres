@@ -10,6 +10,8 @@ export default class extends BaseSchema {
       table.boolean('watched').notNullable().defaultTo(false)
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').notNullable()
+
+      table.unique(['watchlist_id', 'movie_id'])
     })
   }
 

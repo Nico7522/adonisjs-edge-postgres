@@ -11,9 +11,15 @@ export default class WatchlistsController {
     const userId = auth.user!.id
     const { slug } = params
     try {
-      await this._watchlistService.toggle(userId, 0)
+      await this._watchlistService.toggle(userId, slug)
+      session.flash('success', {
+        type: 'added',
+        message: 'Succefully toggled',
+      })
       response.redirect().back()
     } catch (error) {
+      console.log(error)
+
       session.flash('alert', {
         type: 'error',
         message: 'Something wrong, try later',
