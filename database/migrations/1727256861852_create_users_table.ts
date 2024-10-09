@@ -9,6 +9,7 @@ export default class extends BaseSchema {
       table.increments('id').notNullable()
       table.integer('role_id').unsigned().references('roles.id').notNullable().defaultTo(Roles.USER)
       // table.boolean('is_validate').notNullable().defaultTo(false)
+      table.string('avatar').nullable()
       table.string('firstname', 100).nullable()
       table.string('lastname', 100).nullable()
       table.date('birthdate').notNullable()

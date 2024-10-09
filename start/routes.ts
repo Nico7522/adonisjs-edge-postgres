@@ -29,6 +29,10 @@ router.get('/movies/:slug', [MoviesController, 'show']).as('movies.show')
 
 // Profile
 router.get('/profile', [ProfilesController, 'index']).as('profile.index').use(middleware.auth())
+router
+  .post('/profile', [ProfilesController, 'updateAvatar'])
+  .as('profile.updateAvatar')
+  .use(middleware.auth())
 
 // Auth
 router

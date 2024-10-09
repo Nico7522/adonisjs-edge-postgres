@@ -16,7 +16,7 @@ export const movieValidator = vine.compile(
     image: vine
       .file({
         size: '2mb',
-        extnames: ['jpg', 'png', 'pdf'],
+        extnames: ['jpg', 'png'],
       })
       .optional(),
   })

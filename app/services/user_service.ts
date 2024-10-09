@@ -5,11 +5,13 @@ import { RegisterForm } from '../forms/register-form.js'
 
 export default class UserService {
   static async register(data: RegisterForm) {
+    data.avatar = 'placeholder.png'
     const user = await User.create(data)
 
     if (user) {
       const userWatchlist = new Watchlist()
       userWatchlist.userId = user.id
+
       const watchlist = await Watchlist.create(userWatchlist)
       watchlist.save()
     }

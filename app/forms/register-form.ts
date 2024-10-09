@@ -4,4 +4,5 @@ export type RegisterForm = {
   email: string
   birthdate: Date
   password: string
+  avatar: string
 }
