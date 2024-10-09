@@ -36,5 +36,17 @@ form {
   height: 500px;
 }
 
+.carousel {
+  height: 500px;
+}
 
+.watchlist-image {
+  height: 470px;
+}
 
+@media only screen and (max-width: 1024px) {
+  .watchlist-image {
+    width: 350px;
+    text-align: center;
+  }
+}

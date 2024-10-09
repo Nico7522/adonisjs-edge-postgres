@@ -7,7 +7,7 @@ export default class WatchlistsController {
   constructor(private _watchlistService: WatchlistService) {}
   async index({}: HttpContext) {}
 
-  async toggle({ response, params, auth, view, session }: HttpContext) {
+  async toggle({ response, params, auth, session }: HttpContext) {
     const userId = auth.user!.id
     const { slug } = params
     try {
@@ -24,8 +24,7 @@ export default class WatchlistsController {
         type: 'error',
         message: 'Something wrong, try later',
       })
-
-      return response.redirect(`/movies/${slug}`)
+      response.redirect().back()
     }
   }
 }

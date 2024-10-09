@@ -12,7 +12,7 @@
         </p>
 
       </div>
-      @shared.button({class: "px-12 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+      @shared.button({class: "px-6 md:px-12 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
         Edit
       @end
     </div>
@@ -54,10 +54,10 @@
     </div>
   </div>
 
-  <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 mx-10">
+  <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 pt-2 mx-10">
 
-    <div class="px-4 py-5 sm:px-6 flex justify-between">
-      <div>
+    <div class="px-4 pb-2  border-b border-b-gray-200 sm:px-6 flex justify-between">
+      <div class="">
         <h3 class="text-lg leading-6 font-medium ">
           Your Watchlist
         </h3>
@@ -66,31 +66,110 @@
         </p>
 
       </div>
-      @shared.button({class: "px-12 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+      @shared.button({class: "px-6 md:px-12 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
         Add movies
       @end
     </div>
-    <div class="border-t flex border-gray-200 px-4 py-5 sm:p-0">
-      @each(movie in user.watchlist.movies)
-        <div class="py-3 text-2xl font-reddit flex flex-col gap-4 items-center ml-5">
-          {{ movie.title }}
 
-          <img src="https://picsum.photos/200/300" class="h-96" />
+    <div id="controls-carousel" class="relative m-auto" data-carousel="static">
+      <div class="relative carousel rounded-lg">
 
-          <div class="flex flex-row gap-1">
-            @shared.button({class: "px-2 font-mono py-2 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-              Remove
-            @end
-            @shared.button({class: "px-2 font-mono py-2 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-              Set watched
-            @end
-            
+        @each(movie in user.watchlist.movies)
+          <div class="hidden duration-700 ease-in-out w-full overflow-y-auto" data-carousel-item>
+            <div class="flex flex-col items-center lg:items-stretch lg:flex-row h-full">
+              <img src="{{ movie.image }}" class="watchlist-image rounded-lg xl:ml-56 pt-5 shadow-2xl	" />
+              <div
+                class=" lg:border-l lg:border-l-gray-200 flex flex-col items-center w-full pb-10 lg:pb-0 lg:ml-10"
+              >
+                <h3 class="text-white font-reddit text-4xl mb-5 pt-7">
+                  {{ movie.title }}
+                </h3>
+                @if(movie.pivot_watched)
+                <span class="flex items-center gap-2 font-reddit mb-5">Watched 
+                  @svg('lucide:eye', {
+                    width: 40,
+                    height: 40,
+                    color: 'green'
+                  })
+                </span>
+                @else
+                <span class="flex items-center gap-2 font-reddit mb-5">Not watched 
+                  @svg('lucide:eye-off', {
+                    width: 40,
+                    height: 40,
+                  })
+                </span>
+
+                @endif
+                @shared.button({class: "px-5 py-2 w-48 font-mono text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-xl text-2xl  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+                  Remove
+                  
+                @end
+                @shared.button({class: "px-5 py-2 w-48 font-mono mt-5 text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-xl text-2xl  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+                  Set watched
+                @end
+                
+              </div>
+            </div>
+
           </div>
-        </div>
-
-      @end
+        @end
         
+      </div>
+      <button
+        type="button"
+        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-prev
+      >
+        <span
+          class="inline-flex border border-white  items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white dark:text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 1 1 5l4 4"
+            />
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button
+        type="button"
+        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-next
+      >
+        <span
+          class="inline-flex items-center border border-white justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white dark:text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 9 4-4-4-4"
+            />
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
     </div>
+
   </div>
 
 @end

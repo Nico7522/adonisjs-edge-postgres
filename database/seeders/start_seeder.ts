@@ -54,6 +54,8 @@ export default class extends BaseSeeder {
     const movies = await Movie.createMany([
       {
         title: 'Superman',
+        image:
+          'https://m.media-amazon.com/images/S/pv-target-images/9165f22786da45ae83dba59dd16d77e8ab43053329c47bcf9d66c121daa57207.jpg',
         realisator: 'Richard Donner',
         rating: null,
         releaseDate: DateTime.fromISO('2025-07-11'),
@@ -62,6 +64,8 @@ export default class extends BaseSeeder {
       },
       {
         title: 'Spiderman',
+        image: 'https://fr.web.img4.acsta.net/pictures/21/11/16/10/01/4860598.jpg',
+
         rating: 4,
         realisator: 'Sam Raimi',
         releaseDate: DateTime.fromISO('2002-06-26'),
@@ -70,6 +74,8 @@ export default class extends BaseSeeder {
       },
       {
         title: 'Batman',
+        image: 'https://fr.web.img5.acsta.net/pictures/22/02/16/17/42/3125788.jpg',
+
         rating: 3,
         realisator: 'Matt Reeves',
         releaseDate: DateTime.fromISO('2022-03-22'),
@@ -78,6 +84,8 @@ export default class extends BaseSeeder {
       },
       {
         title: 'Iron Man',
+        image:
+          'https://static.wikia.nocookie.net/marvelstudios/images/1/1e/Iron_Man_Official_Poster.jpg/revision/latest?cb=20210126185106&path-prefix=fr',
         rating: 5,
         realisator: 'Jon Favreau',
         releaseDate: DateTime.fromISO('2008-04-30'),
@@ -88,12 +96,16 @@ export default class extends BaseSeeder {
         title: 'Thor',
         rating: 4,
         realisator: 'Kenneth Branagh',
+        image: 'https://lumiere-a.akamaihd.net/v1/images/image_06aa7fbd.jpeg',
         releaseDate: DateTime.fromISO('2011-05-06'),
         summary:
           "Banni d'Asgard, Thor doit vivre sur Terre et apprendre l'humilité pour retrouver ses pouvoirs et protéger son royaume d'une menace.",
       },
       {
         title: 'The Avengers',
+        image:
+          'https://lumiere-a.akamaihd.net/v1/images/p_avengersendgame_19751_e14a0104.jpeg?region=0,0,540,810',
+
         rating: 5,
         realisator: 'Joss Whedon',
         releaseDate: DateTime.fromISO('2012-04-25'),
@@ -103,6 +115,8 @@ export default class extends BaseSeeder {
       {
         title: 'Inception',
         rating: 5,
+        image: 'https://media.senscritique.com/media/000012872126/0/inception.jpg',
+
         realisator: 'Christopher Nolan',
         releaseDate: DateTime.fromISO('2010-07-16'),
         summary:
@@ -111,6 +125,9 @@ export default class extends BaseSeeder {
       {
         title: 'The Matrix',
         rating: 5,
+        image:
+          'https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_.jpg',
+
         realisator: 'Lana Wachowski, Lilly Wachowski',
         releaseDate: DateTime.fromISO('1999-03-31'),
         summary:
@@ -119,6 +136,9 @@ export default class extends BaseSeeder {
       {
         title: 'Interstellar',
         rating: 4,
+        image:
+          'https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg',
+
         realisator: 'Christopher Nolan',
         releaseDate: DateTime.fromISO('2014-11-07'),
         summary:
@@ -127,6 +147,9 @@ export default class extends BaseSeeder {
       {
         title: 'The Godfather',
         rating: 5,
+        image:
+          'https://m.media-amazon.com/images/M/MV5BYTJkNGQyZDgtZDQ0NC00MDM0LWEzZWQtYzUzZDEwMDljZWNjXkEyXkFqcGc@._V1_.jpg',
+
         realisator: 'Francis Ford Coppola',
         releaseDate: DateTime.fromISO('1972-03-24'),
         summary:
@@ -135,6 +158,8 @@ export default class extends BaseSeeder {
       {
         title: 'Pulp Fiction',
         rating: 5,
+        image: 'https://fr.web.img4.acsta.net/medias/nmedia/18/36/02/52/18846059.jpg',
+
         realisator: 'Quentin Tarantino',
         releaseDate: DateTime.fromISO('1994-10-14'),
         summary:
@@ -143,6 +168,9 @@ export default class extends BaseSeeder {
       {
         title: 'Fight Club',
         rating: 4,
+        image:
+          'https://static.wikia.nocookie.net/film/images/1/17/Fightclub.jpg/revision/latest?cb=20240106221416&path-prefix=fr',
+
         realisator: 'David Fincher',
         releaseDate: DateTime.fromISO('1999-10-15'),
         summary:
@@ -151,6 +179,9 @@ export default class extends BaseSeeder {
       {
         title: 'The Shawshank Redemption',
         rating: 5,
+        image:
+          'https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_.jpg',
+
         realisator: 'Frank Darabont',
         releaseDate: DateTime.fromISO('1994-09-23'),
         summary:
@@ -159,6 +190,8 @@ export default class extends BaseSeeder {
       {
         title: 'Forrest Gump',
         rating: 5,
+        image: 'https://fr.web.img4.acsta.net/pictures/15/10/13/15/12/514297.jpg',
+
         realisator: 'Robert Zemeckis',
         releaseDate: DateTime.fromISO('1994-07-06'),
         summary:
@@ -167,6 +200,9 @@ export default class extends BaseSeeder {
       {
         title: 'Gladiator',
         rating: 4,
+        image:
+          'https://www.ecranlarge.com/content/uploads/2020/07/5gjou3t2qrznujqjcg7fqdmi76t-349.jpg',
+
         realisator: 'Ridley Scott',
         releaseDate: DateTime.fromISO('2000-05-01'),
         summary:
@@ -175,6 +211,9 @@ export default class extends BaseSeeder {
       {
         title: 'The Dark Knight',
         rating: 5,
+        image:
+          'https://static.cinebel.be/img/movie/poster/full/1007654_fr_the_dark_knight_rises_1340959516087.jpg',
+
         realisator: 'Christopher Nolan',
         releaseDate: DateTime.fromISO('2008-07-18'),
         summary:
@@ -183,6 +222,9 @@ export default class extends BaseSeeder {
       {
         title: 'Jaws',
         rating: 4,
+        image:
+          'https://static.wikia.nocookie.net/jaws/images/d/da/Jaws-movie-poster.jpg/revision/latest?cb=20131015071208',
+
         realisator: 'Steven Spielberg',
         releaseDate: DateTime.fromISO('1975-06-20'),
         summary:
@@ -191,6 +233,9 @@ export default class extends BaseSeeder {
       {
         title: "Schindler's List",
         rating: 5,
+        image:
+          'https://m.media-amazon.com/images/M/MV5BNjJkZjFhZjItMzFmNy00YjQ2LThiNGEtNjlmNTQ0NTJhYjZhXkEyXkFqcGc@._V1_.jpg',
+
         realisator: 'Steven Spielberg',
         releaseDate: DateTime.fromISO('1993-12-15'),
         summary:
@@ -199,6 +244,9 @@ export default class extends BaseSeeder {
       {
         title: 'The Lord of the Rings: The Fellowship of the Ring',
         rating: 5,
+        image:
+          'https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p28828_p_v8_ao.jpg',
+
         realisator: 'Peter Jackson',
         releaseDate: DateTime.fromISO('2001-12-19'),
         summary:
@@ -207,6 +255,9 @@ export default class extends BaseSeeder {
       {
         title: 'Star Wars: A New Hope',
         rating: 5,
+        image:
+          'https://m.media-amazon.com/images/M/MV5BOGUwMDk0Y2MtNjBlNi00NmRiLTk2MWYtMGMyMDlhYmI4ZDBjXkEyXkFqcGc@._V1_.jpg',
+
         realisator: 'George Lucas',
         releaseDate: DateTime.fromISO('1977-05-25'),
         summary:
