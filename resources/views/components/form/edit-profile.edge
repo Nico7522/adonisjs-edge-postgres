@@ -1,7 +1,12 @@
 <div class="bg-gray-900 overflow-hidden shadow rounded-lg ">
 
   <div class="text-white h-96 px-4 mt-5 py-5 sm:p-0">
-    <form class="flex flex-col gap-3 w-full">
+    <form
+      method="POST"
+      action="{{ route('profile.edit', {} , {qs: { _method: 'PUT' }}) }}"
+      class="flex flex-col gap-3 w-full"
+    >
+      {{ csrfField() }}
       @!form.input({
         type: 'text',
         name: 'firstname',
@@ -31,7 +36,7 @@
       <div class="mx-12 flex  py-5 border-t border-gray-200 rounded-b dark:border-gray-600">
         <button
           data-modal-hide="default-modal"
-          type="button"
+          type="submit"
           class="py-2.5 px-5  text-white focus:outline-none focus:ring-4  font-medium rounded-lg text-sm text-center bg-blue-900 hover:bg-blue-700 focus:ring-blue-800"
         >Edit</button>
         <button

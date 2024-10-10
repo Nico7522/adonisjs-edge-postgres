@@ -1,10 +1,13 @@
-import { profileUpdateAvatarValidator } from '#validators/profile'
+import UserService from '#services/user_service'
+import { profileUpdateAvatarValidator, profileUpdateValidator } from '#validators/profile'
+import { inject } from '@adonisjs/core'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 import { unlink } from 'fs/promises'
-
+@inject()
 export default class ProfilesController {
+  constructor(private _userService: UserService) {}
   async index({ view, auth }: HttpContext) {
     const user = await auth.user
     if (user) {
@@ -14,6 +17,18 @@ export default class ProfilesController {
 
     let formatedBirthdate = user?.birthdate.toLocaleDateString()
     return view.render('pages/users/profile', { user, formatedBirthdate })
+  }
+
+  async edit({ request, response, auth }: HttpContext) {
+    const data = await request.validateUsing(profileUpdateValidator)
+
+    try {
+      await this._userService.edit(auth.user!.id, data)
+      response.redirect().back()
+    } catch (error) {
+      console.log(error)
+      response.redirect().back()
+    }
   }
 
   async updateAvatar({ request, response, auth, session }: HttpContext) {

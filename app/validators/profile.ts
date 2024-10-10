@@ -10,3 +10,11 @@ export const profileUpdateAvatarValidator = vine.compile(
       .optional(),
   })
 )
+
+export const profileUpdateValidator = vine.compile(
+  vine.object({
+    firstname: vine.string(),
+    lastname: vine.string(),
+    email: vine.string().email(),
+  })
+)
