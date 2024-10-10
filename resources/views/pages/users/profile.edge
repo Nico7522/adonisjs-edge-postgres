@@ -1,6 +1,8 @@
 
 @let(isWatchlistEmpty = user.watchlist.movies.length <= 0)
 @shared.layouts({title: 'Profile'})
+
+  {{-- Informations --}}
   <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 mx-10 relative ">
     @flashMessage('noPicture')
       @toasts.errorToast({text: 'You must choose a picture'})
@@ -18,36 +20,9 @@
           src="{{ 'http://localhost:3333/storage/uploads/' + user.avatar }}"
           alt="Flowbite logo"
         />
-        <form
-          class="h-20 mt-2 ml-0"
-          method="POST"
-          enctype="multipart/form-data"
-          action="{{ route('profile.updateAvatar') }}"
-        >
 
-          {{ csrfField() }}
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="avatar">Upload file</label>
-          <input
-            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            id="avatar"
-            name="avatar"
-            type="file"
-          />
-          @shared.button({type: 'submit', class: "mt-1 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"})
-            Edit avatar
-          @end
-        </form>
       </div>
 
-      @shared.button({
-        'data-modal-target': 'default-modal',
-        'data-modal-toggle': 'default-modal',
-        class: "max-h-10 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2 dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
-        type: 'button'
-      })
-        Edit profile
-      @end
-      
       @inputError('avatar')
         @toasts.errorToast({text: $messages.join(',')})
         @end
@@ -92,49 +67,120 @@
     </div>
   </div>
 
-  <div
-    class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 pt-2 mx-10 relative"
-  >
-    @flashMessage('success')
-      @!toasts.successToast({text: flashMessages.values.success})
-    @end
-    
-    @flashMessage('error')
-      @!toasts.errorToast({text: flashMessages.values.error})
-    @end
-    <div class="px-4 pb-2  border-b border-b-gray-200 sm:px-6 flex justify-between">
-      <div class="">
-        <h3 class="text-lg leading-6 font-medium ">
-          Your Watchlist
-        </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-200">
-          All informations about your movies
-        </p>
-
-      </div>
-      @if(!isWatchlistEmpty)
-        @shared.button({href: route('movies.index') ,class: "max-h-10 h-10 mt-2 flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2 dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800"})
-          Add more movies
-        @end
-        
+  <div class="flex">
+    {{-- Watchlist --}}
+    <div
+      class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 pt-2 mx-10 relative flex-grow"
+    >
+      @flashMessage('success')
+        @!toasts.successToast({text: flashMessages.values.success})
       @end
+      
+      @flashMessage('error')
+        @!toasts.errorToast({text: flashMessages.values.error})
+      @end
+      <div class="px-4 pb-2  border-b border-b-gray-200 sm:px-6 flex justify-between">
+        <div class="">
+          <h3 class="text-lg leading-6 font-medium ">
+            Your Watchlist
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-200">
+            All informations about your movies
+          </p>
+
+        </div>
+        @if(!isWatchlistEmpty)
+          @shared.button({href: route('movies.index') ,class: "max-h-10 h-10 mt-2 flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2 dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800"})
+            Add more movies
+          @end
+          
+        @end
+      </div>
+
+      @if(!isWatchlistEmpty)
+        @!watchlists.watchlistProfile({movies: user.watchlist.movies, isWatchlistEmpty })
+
+      @else
+        <h3 class="text-center py-12 text-3xl">
+          No movies in your watchlist. Get the most popular <a
+            href="{{ route('movies.top') }}"
+            class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-3xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center"
+          >HERE</a>and add them !
+        </h3>
+      @endif
+      
     </div>
 
-    @if(!isWatchlistEmpty)
-      @!watchlists.watchlistProfile({movies: user.watchlist.movies, isWatchlistEmpty })
+    {{-- Managment --}}
+    <div
+      class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 mx-10 relative flex flex-col justify-start "
+    >
+      <div class="px-4 pb-2  border-b border-b-gray-200 sm:px-6 flex justify-between">
+        <h3 class="text-lg leading-6 font-medium pt-2 pb-8">
+          Manage profile
+        </h3>
 
-    @else
-      <h3 class="text-center py-12 text-3xl">
-        No movies in your watchlist. Get the most popular <a
-          href="{{ route('movies.top') }}"
-          class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-3xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center"
-        >HERE</a>and add them !
-      </h3>
-    @endif
-    
+      </div>
+      <div>
+        <form
+          class="flex flex-col h-44 items-center w-full m-auto mt-2 ml-0 px-10"
+          method="POST"
+          enctype="multipart/form-data"
+          action="{{ route('profile.updateAvatar') }}"
+        >
+
+          {{ csrfField() }}
+      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="avatar">Upload image</label>
+          <input
+            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="avatar"
+            name="avatar"
+            type="file"
+          />
+          @shared.button({type: 'submit', class: "mt-1 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"})
+            Edit avatar
+          @end
+        </form>
+
+      </div>
+      @shared.button({
+          'data-modal-target': 'default-modal',
+          'data-modal-toggle': 'default-modal',
+          class: "py-2 mx-20 max-h-10 text-white focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-3 text-center bg-blue-900 hover:bg-blue-700 focus:ring-blue-800",
+          type: 'button'
+      })
+        Edit profile
+      @end
+      
+      @shared.button({
+      
+        class: "py-2 mx-20 max-h-10 mt-10 text-white focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-3 text-center bg-blue-900 hover:bg-blue-700 focus:ring-blue-800",
+        type: 'button'
+      })
+        Go to watchlist
+      @end
+      
+      @shared.button({
+      
+        class: "py-2 mx-20 max-h-10 mt-10 text-white focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-3 text-center bg-blue-900 hover:bg-blue-700 focus:ring-blue-800",
+        type: 'button'
+      })
+        Change your email
+      @end
+      
+      @shared.button({
+      
+        class: "py-2 mx-20 max-h-10 mt-10 text-white focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-3 text-center bg-blue-900 hover:bg-blue-700 focus:ring-blue-800",
+        type: 'button'
+      })
+        Change your password
+      @end
+        
+    </div>
+
   </div>
 
-  <!-- Main modal -->
+  <!-- Edit modal -->
   <div
     id="default-modal"
     tabindex="-1"
