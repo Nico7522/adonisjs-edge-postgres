@@ -16,7 +16,12 @@ export default class ProfilesController {
     return view.render('pages/users/profile', { user, formatedBirthdate })
   }
 
-  async updateAvatar({ request, response, auth }: HttpContext) {
+  async updateAvatar({ request, response, auth, session }: HttpContext) {
+    if (!request.file('avatar')) {
+      session.flash('noPicture', 'You must chose a picture')
+
+      response.redirect().back()
+    }
     const { avatar } = await request.validateUsing(profileUpdateAvatarValidator)
 
     if (avatar) {

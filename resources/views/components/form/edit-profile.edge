@@ -1,0 +1,45 @@
+<div class="bg-gray-900 overflow-hidden shadow rounded-lg ">
+
+  <div class="text-white h-96 px-4 mt-5 py-5 sm:p-0">
+    <form class="flex flex-col gap-3 w-full">
+      @!form.input({
+        type: 'text',
+        name: 'firstname',
+        label: 'Firstname',
+        classLabel: 'mx-12',
+        value: user.firstname,
+        className: 'mx-12 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      })
+
+      @!form.input({
+        type: 'text',
+        name: 'lastname',
+        label: 'Lastname',
+        classLabel: 'mx-12',
+        value: user.lastname,
+        className: 'mx-12 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      })
+
+      @!form.input({
+          type: 'email',
+          name: 'email',
+          label: 'Email',
+          classLabel: 'mx-12',
+          value: user.email,
+          className: 'mx-12 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      })
+      <div class="mx-12 flex  py-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+        <button
+          data-modal-hide="default-modal"
+          type="button"
+          class="py-2.5 px-5  text-white focus:outline-none focus:ring-4  font-medium rounded-lg text-sm text-center bg-blue-900 hover:bg-blue-700 focus:ring-blue-800"
+        >Edit</button>
+        <button
+          data-modal-hide="default-modal"
+          type="button"
+          class="py-2.5 px-5 ms-3 text-white focus:outline-none focus:ring-4  font-medium rounded-lg text-sm text-center bg-red-900 hover:bg-red-700 focus:ring-red-800"
+        >Close</button>
+      </div>
+    </form>
+  </div>
+</div>

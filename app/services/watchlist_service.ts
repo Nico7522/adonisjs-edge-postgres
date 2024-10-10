@@ -19,4 +19,21 @@ export default class WatchlistService {
       }
     }
   }
+
+  async toggleWatched(userId: number, slug: string) {
+    await Movie.query().where('slug', slug).firstOrFail()
+    const watchlist = await Watchlist.query()
+      .preload('movies', (query) => {
+        query.where('slug', slug)
+      })
+      .where('user_id', userId)
+      .firstOrFail()
+
+    await watchlist
+      ?.related('movies')
+      .pivotQuery()
+      .update('watched', !watchlist.movies[0].$extras.pivot_watched)
+
+    await watchlist.save()
+  }
 }

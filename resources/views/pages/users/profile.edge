@@ -1,8 +1,12 @@
 
 @let(isWatchlistEmpty = user.watchlist.movies.length <= 0)
 @shared.layouts({title: 'Profile'})
-  <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 mx-10 ">
+  <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 mx-10 relative ">
+    @flashMessage('noPicture')
+      @toasts.errorToast({text: 'You must choose a picture'})
 
+      @end
+    @end
     <div class="px-4 py-5 sm:px-6 flex justify-between relative">
       <div class="flex flex-col  justify-start">
         <h3 class="text-lg leading-6 font-medium ">
@@ -34,9 +38,16 @@
           @end
         </form>
       </div>
-      @shared.button({class: " max-h-12 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-sm text-sm px-5  text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"})
+
+      @shared.button({
+        'data-modal-target': 'default-modal',
+        'data-modal-toggle': 'default-modal',
+        class: "max-h-10 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2 dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+        type: 'button'
+      })
         Edit profile
       @end
+      
       @inputError('avatar')
         @toasts.errorToast({text: $messages.join(',')})
         @end
@@ -81,8 +92,16 @@
     </div>
   </div>
 
-  <div class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 pt-2 mx-10">
-
+  <div
+    class="bg-gray-900 text-white overflow-hidden shadow rounded-lg border my-10 pt-2 mx-10 relative"
+  >
+    @flashMessage('success')
+      @!toasts.successToast({text: flashMessages.values.success})
+    @end
+    
+    @flashMessage('error')
+      @!toasts.errorToast({text: flashMessages.values.error})
+    @end
     <div class="px-4 pb-2  border-b border-b-gray-200 sm:px-6 flex justify-between">
       <div class="">
         <h3 class="text-lg leading-6 font-medium ">
@@ -94,120 +113,15 @@
 
       </div>
       @if(!isWatchlistEmpty)
-        @shared.button({class: "max-h-12 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-sm text-sm px-5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"})
-          Add movies
+        @shared.button({href: route('movies.index') ,class: "max-h-10 h-10 mt-2 flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2 dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800"})
+          Add more movies
         @end
         
       @end
     </div>
 
     @if(!isWatchlistEmpty)
-      <div id="controls-carousel" class="relative m-auto" data-carousel="static">
-        <div class="relative carousel rounded-lg">
-
-          @each(movie in user.watchlist.movies)
-            <div class="hidden duration-700 ease-in-out w-full overflow-y-auto" data-carousel-item>
-              <div class="flex flex-col items-center lg:items-stretch lg:flex-row h-full">
-                <img src="{{ movie.image }}" class="watchlist-image rounded-lg xl:ml-56 pt-5 shadow-2xl	" />
-                <div
-                  class=" lg:border-l lg:border-l-gray-200 flex flex-col items-center w-full pb-10 lg:pb-0 lg:ml-10"
-                >
-                  <h3 class="text-white font-reddit text-4xl mb-5 pt-7">
-                    {{ movie.title }}
-                  </h3>
-                  @if(movie.pivot_watched)
-                    <span class="flex items-center gap-2 font-reddit mb-5">Watched
-                      @svg('lucide:eye', {
-                      width: 40,
-                      height: 40,
-                      color: 'green'
-                      })
-                    </span>
-                  @else
-                    <span class="flex items-center gap-2 font-reddit mb-5">Not watched
-                      @svg('lucide:eye-off', {
-                      width: 40,
-                      height: 40,
-                      })
-                    </span>
-
-                  @endif
-                  <div class="h-10 mt-5 gap-2 flex flex-col justify-center items-center">
-                    <form class="w-full" method="POST" action="{{ route('watchlist.toggle', { slug: movie.slug}) }}">
-                      @shared.button({class: "px-5 py-2 w-48 font-mono text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-xl text-2xl  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-                        Remove
-                      @end
-                      
-                    </form>
-                    <form class="w-full">
-                      @shared.button({class: "px-5 py-2 w-48 font-mono text-white border border-blue-700  focus:border-2 focus:border-blue-300  font-medium rounded-xl text-2xl  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-                        Set watched
-                      @end
-                      
-                    </form>
-
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          @end
-          
-        </div>
-        <button
-          type="button"
-          class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          data-carousel-prev
-        >
-          <span
-            class="inline-flex border border-white  items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-          >
-            <svg
-              class="w-4 h-4 text-white dark:text-white rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 6 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 1 1 5l4 4"
-              />
-            </svg>
-            <span class="sr-only">Previous</span>
-          </span>
-        </button>
-        <button
-          type="button"
-          class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          data-carousel-next
-        >
-          <span
-            class="inline-flex items-center border border-white justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-          >
-            <svg
-              class="w-4 h-4 text-white dark:text-white rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 6 10"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 9 4-4-4-4"
-              />
-            </svg>
-            <span class="sr-only">Next</span>
-          </span>
-        </button>
-      </div>
+      @!watchlists.watchlistProfile({movies: user.watchlist.movies, isWatchlistEmpty })
 
     @else
       <h3 class="text-center py-12 text-3xl">
@@ -218,6 +132,52 @@
       </h3>
     @endif
     
+  </div>
+
+  <!-- Main modal -->
+  <div
+    id="default-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-900">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Edit your profile
+          </h3>
+          <button
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-hide="default-modal"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        @form.editProfile({user})
+
+        @end
+        
+      </div>
+    </div>
   </div>
 
 @end

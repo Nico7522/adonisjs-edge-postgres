@@ -10,20 +10,28 @@ export default class WatchlistsController {
   async toggle({ response, params, auth, session }: HttpContext) {
     const userId = auth.user!.id
     const { slug } = params
+
     try {
       await this._watchlistService.toggle(userId, slug)
-      session.flash('success', {
-        type: 'added',
-        message: 'Succefully toggled',
-      })
+      session.flash('success', 'Succefully toggled')
       response.redirect().back()
     } catch (error) {
-      console.log(error)
+      session.flash('error', 'Something wrong')
+      response.redirect().back()
+    }
+  }
 
-      session.flash('alert', {
-        type: 'error',
-        message: 'Something wrong, try later',
-      })
+  async toggleWatched({ response, params, auth, session }: HttpContext) {
+    const userId = auth.user!.id
+    const { slug } = params
+
+    try {
+      await this._watchlistService.toggleWatched(userId, slug)
+      session.flash('success', 'Movie updated !')
+      response.redirect().back()
+    } catch (error) {
+      session.flash('error', 'Something wrong')
+      console.log(error)
       response.redirect().back()
     }
   }

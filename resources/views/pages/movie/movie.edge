@@ -87,13 +87,13 @@
 
       @end
       
-      @flashMessage('alert')
-        @!toasts.errorToast({text: $message.message})
+      @flashMessage('error')
+        @!toasts.errorToast({text: flashMessages.values.error})
 
       @end
         
       @flashMessage('success')
-        @!toasts.successToast({text: $message.message})
+        @!toasts.successToast({text: flashMessages.values.success})
 
       @end
       

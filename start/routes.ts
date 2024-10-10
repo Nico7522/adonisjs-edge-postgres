@@ -64,5 +64,8 @@ router
 router
   .group(() => {
     router.post('/watchlist/:slug/toggle', [WatchlistsController, 'toggle']).as('toggle')
+    router
+      .post('/watchlist/:slug/toggle-watched', [WatchlistsController, 'toggleWatched'])
+      .as('toggle.watched')
   })
   .as('watchlist')
