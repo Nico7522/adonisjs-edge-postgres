@@ -10,6 +10,8 @@ export type MovieVM = {
   summary: string
   slug: string
   image: string | null
+  banner: string | null
+
   title: string
 }
 

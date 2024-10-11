@@ -13,7 +13,7 @@ export default {
     extend: {
       fontFamily:{
         'reddit': ['Reddit'],
-        'lato': ['lato']
+        'lato': ['Lato', 'sans-serif']
       },
       
     },

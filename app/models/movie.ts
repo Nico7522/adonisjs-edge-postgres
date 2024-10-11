@@ -33,6 +33,7 @@ export default class Movie extends BaseModel {
       summary: this.summary,
       slug: this.slug,
       image: this.image,
+      banner: this.banner,
       title: movie.title,
       ratingStars: this.#setRatingStars(movie),
     }
@@ -72,6 +73,9 @@ export default class Movie extends BaseModel {
 
   @column()
   declare image: string | null
+
+  @column()
+  declare banner: string | null
 
   @column()
   declare releaseDate: DateTime | null

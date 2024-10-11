@@ -36,13 +36,30 @@ form {
   height: 500px;
 }
 
-.carousel {
-  height: 500px;
-}
+
 
 .watchlist-image {
   height: 470px;
 }
+
+.banner {
+  height: 100%;
+  width: 100%;
+  top:0;
+  left: 0;
+  background-size: cover; /* Ajuste l'image pour qu'elle couvre tout l'élément */
+  background-position: center; /* Centre l'image pour un meilleur rendu */
+
+}
+.carousel-content{
+  height: 110vh;
+  background-image: linear-gradient(to top, rgba(255,0,0,0), rgb(14, 11, 11));
+}
+.carousel {
+
+
+}
+
 
 @media only screen and (max-width: 1024px) {
   .watchlist-image {
