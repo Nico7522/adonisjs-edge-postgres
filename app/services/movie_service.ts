@@ -5,6 +5,7 @@ import { MovieDetailsVM, MovieVM, Pagination } from '#view_models/movie'
 import { MovieSortOptions } from '#types/movie_sort_options'
 import router from '@adonisjs/core/services/router'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
+import { DateTime } from 'luxon'
 export default class MovieService {
   moviesSortOptions: MovieSortOptions[] = [
     {
@@ -60,7 +61,11 @@ export default class MovieService {
   }
 
   async getLast() {
-    const lastMovie = await Movie.query().orderBy('release_date').limit(3)
+    const lastMovie = await Movie.query()
+      .orderBy('release_date', 'desc')
+      .where('release_date', '<=', DateTime.now().toString())
+      .limit(3)
+
     let moviesVM: MovieVM[] = this.#mapMovie(lastMovie)
 
     return moviesVM

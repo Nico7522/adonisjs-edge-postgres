@@ -37,28 +37,43 @@ form {
 }
 
 
-
+h2 {
+  z-index: 60;
+}
 .watchlist-image {
   height: 470px;
 }
 
-.banner {
+.background {
   height: 100%;
   width: 100%;
   top:0;
   left: 0;
   background-size: cover; /* Ajuste l'image pour qu'elle couvre tout l'élément */
-  background-position: center; /* Centre l'image pour un meilleur rendu */
+  background-position: center  ; /* Centre l'image pour un meilleur rendu */
 
 }
-.carousel-content{
-  height: 110vh;
-  background-image: linear-gradient(to top, rgba(255,0,0,0), rgb(14, 11, 11));
-}
-.carousel {
+
+.banner-content{
+  min-height: 100vh;
+  background: 
+  linear-gradient(to bottom, transparent 50%, black 100%),
+  linear-gradient(to left, transparent 0%, black 60%);
 
 
 }
+
+.shadow-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -20;
+  background: 
+  linear-gradient(to left, transparent 0%, black 60%),
+  linear-gradient(to top, transparent 0%, black 100%);
+
+}
+
 
 
 @media only screen and (max-width: 1024px) {

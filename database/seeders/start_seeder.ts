@@ -58,6 +58,7 @@ export default class extends BaseSeeder {
           'https://m.media-amazon.com/images/S/pv-target-images/9165f22786da45ae83dba59dd16d77e8ab43053329c47bcf9d66c121daa57207.jpg',
         realisator: 'Richard Donner',
         rating: null,
+        banner: 'sp-banner.jpg',
         releaseDate: DateTime.fromISO('2025-07-11'),
         summary:
           "Juste avant l'explosion de la planète Krypton, Jor-El décide de sauver son fils en l'envoyant sur Terre. Le nourrisson est recueilli par le couple Kent qui décide de l'élever comme leur propre fils. L'enfant se met à développer des pouvoirs hors du commun. Une fois adulte, Clark Kent, journaliste au Daily Planet, souhaite mener une vie normale. Il ne renie pas pour autant ses capacités à sauver le monde et devient alors Superman.",
@@ -152,6 +153,8 @@ export default class extends BaseSeeder {
 
         realisator: 'Francis Ford Coppola',
         releaseDate: DateTime.fromISO('1972-03-24'),
+        banner: 'gf-banner.jpg',
+
         summary:
           "L'histoire de la famille Corleone, une des familles les plus puissantes de la mafia italo-américaine.",
       },
@@ -259,6 +262,8 @@ export default class extends BaseSeeder {
           'https://m.media-amazon.com/images/M/MV5BOGUwMDk0Y2MtNjBlNi00NmRiLTk2MWYtMGMyMDlhYmI4ZDBjXkEyXkFqcGc@._V1_.jpg',
 
         realisator: 'George Lucas',
+        banner: 'sw-banner.jpg',
+
         releaseDate: DateTime.fromISO('1977-05-25'),
         summary:
           "Luke Skywalker rejoint une rébellion pour affronter l'Empire Galactique et restaurer la paix dans la galaxie.",
