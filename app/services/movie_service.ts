@@ -71,6 +71,12 @@ export default class MovieService {
     return moviesVM
   }
 
+  async getLatestAdded() {
+    const latestMovieAdded = await Movie.query().orderBy('created_at', 'desc').firstOrFail()
+    let latestMovieAddedVM: MovieVM = latestMovieAdded.toMovieDetailsVM(latestMovieAdded)
+    return latestMovieAddedVM
+  }
+
   async getOne(slug: string, userId: number | undefined) {
     let movie = await Movie.query()
       .where('slug', slug)
@@ -110,6 +116,20 @@ export default class MovieService {
     return moviesVM
   }
 
+  async getMostWatched() {
+    const mostWatchedMovie = await Movie.query()
+      .preload('watchlists')
+      .join('watchlist_movies', 'movies.id', 'watchlist_movies.movie_id')
+      .where('watchlist_movies.watched', true)
+      .select('movies.*')
+      .count('watchlist_movies.movie_id', 'count')
+      .groupBy('movies.id', 'movies.title')
+      .orderBy('count', 'desc')
+      .limit(1)
+    let mostWatchedMovieVM: MovieVM[] = this.#mapMovie(mostWatchedMovie)
+    return mostWatchedMovieVM[0]
+  }
+
   #mapMovie(movies: Movie[]) {
     let moviesVM: MovieVM[] = movies.map((movie) => {
       return movie.toMovieVM(movie)
@@ -137,3 +157,10 @@ export default class MovieService {
     }
   }
 }
+
+// const movies = await Movie.query()
+// .preload('actors')
+// .where('movies.id', 1)
+// .join('movie_actors', 'movies.id', 'movie_actors.movie_id')
+// .join('actors', 'movie_actors.actor_id', 'actors.id')
+// .select('movies.*', 'actors.firstname')

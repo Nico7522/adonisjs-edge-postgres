@@ -46,6 +46,7 @@ export default class Movie extends BaseModel {
       slug: this.slug,
       image: this.image,
       title: movie.title,
+      banner: this.banner,
       releaseDate: this.releaseDate
         ? new Date(this.releaseDate.toString()).toLocaleDateString('en-US', {
             year: 'numeric',

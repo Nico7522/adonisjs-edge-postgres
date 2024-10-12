@@ -5,15 +5,18 @@ import Movie from '#models/movie'
 
 @inject()
 export default class HomeController {
-  constructor(protected movieService: MovieService) {}
+  constructor(private _movieService: MovieService) {}
 
   async index({ view }: HttpContext) {
-    const moviesVM = await this.movieService.getLast()
-    const movie = await Movie.query().where('id', moviesVM[2].id).first()
-    console.log(movie)
+    const lastReleasedMoviesVM = await this._movieService.getLast()
+    const latestMovieAddedVM = await this._movieService.getLatestAdded()
+    const mostWatchedMovieVM = await this._movieService.getMostWatched()
+    console.log(mostWatchedMovieVM.banner)
 
-    movie!.banner = 'avg-banner.jpg'
-    await movie?.save()
-    return view.render('pages/home', { movies: moviesVM })
+    return view.render('pages/home', {
+      lastReleasedMovies: lastReleasedMoviesVM,
+      latestMovieAdded: latestMovieAddedVM,
+      mostWatchedMovie: mostWatchedMovieVM,
+    })
   }
 }

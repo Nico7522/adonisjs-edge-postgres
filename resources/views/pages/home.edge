@@ -1,18 +1,17 @@
 @shared.layouts({title: 'Home'})
 
   <div class="w-full">
-
     <div
-      class="relative w-full bg-[url('http://localhost:3333/storage/uploads/banners/bm-banner.jpg')] background"
+      class="relative w-full bg-[url('/storage/uploads/banners/{{{ latestMovieAdded.banner }}}')] background"
     >
 
       <div class="relative overflow-hidden rounded-lg banner-content">
         <h2 class="text-white font-lato font-bold text-5xl text-center mt-12">
-          Last release
+          Last film added
         </h2>
 
         <div class="mt-20 w-full lg:px-72">
-          @!component('components/movie/movie', { movie: movies[0] })
+          @!component('components/movie/movie', { movie: latestMovieAdded })
         </div>
 
       </div>
@@ -24,16 +23,16 @@
   <div class="w-full">
 
     <div
-      class="relative w-full bg-[url('http://localhost:3333/storage/uploads/banners/interstellar-banner.jpg')] background"
+      class="relative w-full bg-[url('http://localhost:3333/storage/uploads/banners/{{{ mostWatchedMovie.banner }}}')] background"
     >
 
       <div class="relative overflow-hidden rounded-lg banner-content">
         <h2 class="text-white font-lato font-bold text-5xl text-center mt-12">
-          Top movie
+          Most watched movie
         </h2>
 
         <div class="mt-20 w-full lg:px-72">
-          @!component('components/movie/movie', { movie: movies[1] })
+          @!component('components/movie/movie', { movie: mostWatchedMovie })
         </div>
 
       </div>
@@ -44,11 +43,11 @@
 
   <div id="default-carousel" class="relative w-full" data-carousel="slide">
     <!-- Carousel wrapper -->
-    <h2 class="text-white bg-black/50 font-lato font-bold text-5xl text-center mt-12 z-50">
-      Last releases
-    </h2>
-    <div class="relative h-[750px] overflow-hidden rounded-lg xl:h-[100vh] mt-20">
-      @each(movie in movies)
+    <div class="relative wrapper h-[900px] overflow-hidden rounded-lg xl:h-[100vh] mt-20">
+      <h2 class="text-white font-lato font-bold text-5xl text-center mt-12 relative">
+        Last releases
+      </h2>
+      @each(movie in lastReleasedMovies)
         <div
           class="hidden duration-700 ease-in-out bg-[url('http://localhost:3333/storage/uploads/banners/{{ movie.banner }}')] background"
           data-carousel-item
@@ -56,9 +55,8 @@
 
           <div class="shadow-wrapper">
           </div>
-          <div class="lg:px-72">
+          <div class="lg:px-72 mt-40">
             @!component('components/movie/movie', { movie })
-
           </div>
         </div>
       @end

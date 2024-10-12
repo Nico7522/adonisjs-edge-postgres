@@ -91,9 +91,3 @@ export default class MoviesController {
     }
   }
 }
-// const movies = await Movie.query()
-// .preload('actors')
-// .where('movies.id', 1)
-// .join('movie_actors', 'movies.id', 'movie_actors.movie_id')
-// .join('actors', 'movie_actors.actor_id', 'actors.id')
-// .select('movies.*', 'actors.firstname')
