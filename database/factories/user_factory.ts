@@ -9,7 +9,7 @@ export const UserFactory = factory
       email: faker.internet.email(),
       password: faker.internet.password(),
       birthdate: faker.date.birthdate(),
-      avatar: 'placeholder.png',
+      avatar: 'placeholder.jpg',
     }
   })
   .build()

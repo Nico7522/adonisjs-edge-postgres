@@ -13,6 +13,7 @@ export default class ProfilesController {
     if (user) {
       await user.load('watchlist')
       await user.watchlist.load('movies')
+      console.log(user.watchlist)
     }
 
     let formatedBirthdate = user?.birthdate.toLocaleDateString()
@@ -41,9 +42,9 @@ export default class ProfilesController {
 
     if (avatar) {
       if (auth.user?.avatar) {
-        await unlink(app.makePath('storage/uploads', auth.user.avatar))
+        await unlink(app.makePath('storage/uploads/avatars', auth.user.avatar))
       }
-      await avatar.move(app.makePath('storage/uploads'), {
+      await avatar.move(app.makePath('storage/uploads/avatars'), {
         name: `${cuid()}.${avatar.extname}`,
       })
       auth.user!.avatar = avatar.fileName!
