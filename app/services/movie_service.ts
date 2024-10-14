@@ -130,6 +130,47 @@ export default class MovieService {
     return mostWatchedMovieVM[0]
   }
 
+  async getMovieToSuggest(userId: number | undefined) {
+    if (!userId) return
+
+    // Get the most represented genre in a user's watchlist
+    const favoriteGenre = await Movie.query()
+      .preload('genres')
+      .join('watchlist_movies', 'movies.id', 'watchlist_movies.movie_id')
+      .join('genre_movies', 'movies.id', 'genre_movies.movie_id')
+      .join('genres', 'genre_movies.genre_id', 'genres.id')
+      .join('watchlists', 'watchlist_movies.watchlist_id', 'watchlists.id')
+      .join('users', 'watchlists.user_id', 'users.id')
+      .select('genres.id', 'genres.name')
+      .count('genres.id')
+      .groupBy('genres.id')
+      .where('users.id', userId)
+      .orderBy('genres.id', 'desc')
+      .firstOrFail()
+
+    if (favoriteGenre.$original.id) {
+      // Get user watchlist movies
+      const movies = await Movie.query()
+        .preload('genres')
+        .join('watchlist_movies', 'movies.id', 'watchlist_movies.movie_id')
+        .join('watchlists', 'watchlist_movies.watchlist_id', 'watchlists.id')
+        .join('users', 'watchlists.user_id', 'users.id')
+        .where('users.id', userId)
+
+      // Return array of title
+      let moviesTitle = movies.map((m) => m.title)
+
+      // Get all movies not in the watchlist, with the prefered genre
+      const moviesToSuggest = await Movie.query()
+        .preload('genres', (query) => query.where('genres.id', favoriteGenre.$original.id))
+        .whereNotIn('movies.title', moviesTitle)
+        .limit(4)
+
+      const moviesToSuggestVM = this.#mapMovie(moviesToSuggest)
+      return moviesToSuggestVM
+    }
+  }
+
   #mapMovie(movies: Movie[]) {
     let moviesVM: MovieVM[] = movies.map((movie) => {
       return movie.toMovieVM(movie)
