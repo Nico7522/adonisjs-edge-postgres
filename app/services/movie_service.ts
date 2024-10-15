@@ -156,6 +156,7 @@ export default class MovieService {
       .where('users.id', userId)
       .orderBy('genres.id', 'desc')
       .first()
+
     if (favoriteGenre) {
       // Get user watchlist movies
       const movies = await Movie.query()

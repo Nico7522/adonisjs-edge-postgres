@@ -32,6 +32,7 @@ export default class MoviesController {
   async show({ view, params, auth }: HttpContext) {
     const userId = auth.user?.id
     const { movieDetailsVM, inWatchlist } = await this.movieService.getOne(params['slug'], userId)
+    console.log(movieDetailsVM.banner)
 
     return view.render('pages/movie/movie', { movie: movieDetailsVM, inWatchlist })
   }

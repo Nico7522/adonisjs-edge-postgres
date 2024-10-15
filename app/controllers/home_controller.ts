@@ -15,10 +15,8 @@ export default class HomeController {
     let moviesToSuggestVM: MovieVM[] | undefined = []
 
     try {
-      moviesToSuggestVM = await this._movieService.getMovieToSuggest(auth.user!.id)
-    } catch (error) {
-      console.log(error)
-    }
+      moviesToSuggestVM = await this._movieService.getMovieToSuggest(auth.user?.id)
+    } catch (error) {}
 
     return view.render('pages/home', {
       lastReleasedMovies: lastReleasedMoviesVM,

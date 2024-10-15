@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.string('realisator', 100).notNullable()
       table.text('summary').notNullable()
       table.integer('rating').nullable()
-      table.string('image').nullable()
+      table.string('image').nullable().defaultTo('no-image.jpg')
       table.string('banner').nullable()
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').notNullable()
