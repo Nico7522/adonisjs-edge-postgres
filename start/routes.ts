@@ -14,6 +14,7 @@ const LogoutController = () => import('#controllers/auth/logout_controller')
 const HomeController = () => import('#controllers/home_controller')
 const WatchlistsController = () => import('#controllers/watchlists_controller')
 const ProfilesController = () => import('#controllers/profiles_controller')
+const ActorsController = () => import('#controllers/actors_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
@@ -71,3 +72,5 @@ router
       .as('toggle.watched')
   })
   .as('watchlist')
+
+router.get('/actor/:slug', [ActorsController, 'show']).as('actor.show')

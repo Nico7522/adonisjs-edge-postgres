@@ -6,6 +6,7 @@ import { MovieSortOptions } from '#types/movie_sort_options'
 import router from '@adonisjs/core/services/router'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 import { DateTime } from 'luxon'
+import User from '#models/user'
 export default class MovieService {
   moviesSortOptions: MovieSortOptions[] = [
     {
@@ -133,6 +134,14 @@ export default class MovieService {
   async getMovieToSuggest(userId: number | undefined) {
     if (!userId) return
 
+    const user = await User.findByOrFail('id', userId)
+    if (!user) return
+
+    await user.load('watchlist')
+    await user.watchlist.load('movies')
+
+    if (user.watchlist.movies.length === 0) return
+
     // Get the most represented genre in a user's watchlist
     const favoriteGenre = await Movie.query()
       .preload('genres')
@@ -146,9 +155,8 @@ export default class MovieService {
       .groupBy('genres.id')
       .where('users.id', userId)
       .orderBy('genres.id', 'desc')
-      .firstOrFail()
-
-    if (favoriteGenre.$original.id) {
+      .first()
+    if (favoriteGenre) {
       // Get user watchlist movies
       const movies = await Movie.query()
         .preload('genres')
@@ -162,11 +170,12 @@ export default class MovieService {
 
       // Get all movies not in the watchlist, with the prefered genre
       const moviesToSuggest = await Movie.query()
-        .preload('genres', (query) => query.where('genres.id', favoriteGenre.$original.id))
+        .whereHas('genres', (query) => query.where('genres.id', favoriteGenre.$original.id))
         .whereNotIn('movies.title', moviesTitle)
         .limit(4)
 
       const moviesToSuggestVM = this.#mapMovie(moviesToSuggest)
+
       return moviesToSuggestVM
     }
   }
