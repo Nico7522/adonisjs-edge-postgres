@@ -83,7 +83,7 @@ export default class MovieService {
       .where('slug', slug)
       .preload('actors')
       .preload('genres')
-      .preload('pictures', (query) => query.limit(3))
+      .preload('pictures')
 
       .if(userId !== undefined, (query) => {
         query.preload('watchlists', (query) => {

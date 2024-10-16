@@ -22,27 +22,32 @@
 
         </div>
         {{-- Movie shooting pictures --}}
-        <div class="flex flex-col flex-grow flex-wrap ml-5 mb-5 max-w-[1000px] ">
-          <h3 class="pl-5 text-4xl font-lato border-l-8 border-l-gray-900">
-            Pictures
-          </h3>
-          <div class="flex flex-wrap mt-5 transition-all duration-300 rounded-lg blur-sm hover:blur-none">
+        @if(movie.shootingPictures.length > 0)
+          <div class="flex flex-col flex-grow flex-wrap ml-5 mb-5 max-w-[1000px] ">
+            <h3 class="pl-5 text-4xl font-lato border-l-8 border-l-gray-900">
+              Pictures
+            </h3>
+            <div
+              class="flex items-center flex-wrap mt-5 transition-all duration-300 rounded-lg blur-sm hover:blur-none"
+            >
 
-            @each(picture in movie.shootingPictures)
-              <img src="{{ env.get('IMG_PATH') + 'shooting_movie_pictures/' +  picture }}" class="h-56 shadow-lg" />
-            @end
-            
+              @each((picture, index) in shootingPictureResume)
+                <img src="{{ env.get('IMG_PATH') + 'shooting_movie_pictures/' +  picture }}" class="h-56 shadow-lg" />
+              @end
+              @shared.button({
+                type: 'button',
+                class: 'all-pictures top-5 ml-10 bg-gray-900 text-white px-2 py-2 rounded-lg w-32 text-center mt-5 font-reddit hover:bg-gray-800',
+                'data-modal-target': "default-modal",
+                'data-modal-toggle':"default-modal"
+              })
+                See more ...
+              @end
+              
+            </div>
+
           </div>
-          @shared.button({
-            type: 'button',
-            class: 'top-5 bg-gray-900 text-white px-2 py-2 rounded-lg w-32 text-center mt-5 font-reddit',
-            'data-modal-target': "default-modal",
-            'data-modal-toggle':"default-modal"
-          })
-            See more ...
-          @end
-          
-        </div>
+
+        @end
         <h4 class="mx-5 text-2xl pl-5 border-l-8 border-l-gray-900">
           Summary :
         </h4>
@@ -141,6 +146,6 @@
 @end
 
 
-@modals.shootingPictures({movie})
+@modals.shootingPictures({pictures: movie.shootingPictures})
 
 @end
