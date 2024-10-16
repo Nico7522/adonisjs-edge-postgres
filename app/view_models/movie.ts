@@ -20,6 +20,7 @@ export type MovieDetailsVM = MovieVM & {
   realisator: string
   releaseDate: string | null
   genres: Genre[]
+  shootingPictures: string[]
 }
 
 export type Pagination = {

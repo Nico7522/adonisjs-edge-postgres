@@ -21,7 +21,7 @@ export default class Actor extends BaseModel {
   @column()
   declare image: string | null
 
-  @column()
+  @column.dateTime()
   declare birthdate: DateTime | null
 
   @column.dateTime({ autoCreate: true })

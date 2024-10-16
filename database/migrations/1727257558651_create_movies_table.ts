@@ -1,5 +1,4 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
-import { rule } from 'postcss'
 
 export default class extends BaseSchema {
   protected tableName = 'movies'

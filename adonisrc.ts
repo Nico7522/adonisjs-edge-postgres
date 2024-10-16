@@ -51,6 +51,8 @@ export default defineConfig({
     () => import('#start/kernel'),
     () => import('#start/global'),
     () => import('#start/rules/unique'),
+    () => import('#start/env'),
+    () => import('#start/view'),
   ],
 
   /*

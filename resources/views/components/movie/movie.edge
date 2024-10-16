@@ -1,3 +1,5 @@
+@let(imagePlaceholder = "/storage/uploads/movies/placeholder.png")
+
 <div
   class="{{ html.classNames([
     'flex flex-col my-5 text-white font-reddit ',
@@ -8,16 +10,16 @@
 >
   <div class="flex flex-col xl:flex-row">
     <div>
-      <h3 class="text-4xl ml-5 font-lato">
+      <h3 class="text-4xl ml-5 font-lato w-96">
         {{ movie.title }}
       </h3>
-      <img
-        src="{{ movie.image }}"
-        alt=""
-        class="h-72 w-56 mx-5 my-5"
-        {{-- src="{{ 'http://localhost:3333/storage/uploads/' + movie.image }}" --}}
-      />
+      @if(movie.image)
+        <img src="{{ movie.image }}" alt="" class="h-72 w-56 mx-5 my-5" />
+      @else
+        <img src="{{ imagePlaceholder }}" alt="" class="h-72 w-56 mx-5 my-5" />
 
+      @endif
+      
     </div>
 
     <div class=" xl:ml-10 flex flex-col flex-grow">

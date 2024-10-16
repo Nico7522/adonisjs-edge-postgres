@@ -29,6 +29,7 @@ export default class extends BaseSeeder {
       {
         firstname: 'Henry',
         lastname: 'Cavill',
+        image: 'henry-cavill.jpg',
       },
       {
         firstname: 'Nicolas',

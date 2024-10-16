@@ -1,6 +1,6 @@
 @shared.layouts({title: 'All movies'})
 
-  <div class="">
+  <div class="lg:px-72">
     @!form.filter({sortOptions, filter})
     @if(pagination)
       @each((movie, index) in moviesVM.movies)

@@ -1,11 +1,12 @@
-import { BaseModel, beforeCreate, column, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 import string from '@adonisjs/core/helpers/string'
 import Watchlist from './watchlist.js'
-import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Actor from './actor.js'
 import { MovieDetailsVM, MovieVM } from '#view_models/movie'
 import Genre from './genre.js'
+import MoviePicture from './movie_picture.js'
 export default class Movie extends BaseModel {
   #setRatingStars(movie: Movie) {
     let rating = []
@@ -47,6 +48,7 @@ export default class Movie extends BaseModel {
       image: this.image,
       title: movie.title,
       banner: this.banner,
+      shootingPictures: this.pictures?.map((p) => p.image),
       releaseDate: this.releaseDate
         ? new Date(this.releaseDate.toString()).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -111,6 +113,9 @@ export default class Movie extends BaseModel {
     pivotTimestamps: true,
   })
   declare genres: ManyToMany<typeof Genre>
+
+  @hasMany(() => MoviePicture)
+  declare pictures: HasMany<typeof MoviePicture>
 
   @beforeCreate()
   static async slugify(movie: Movie) {
