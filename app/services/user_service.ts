@@ -2,20 +2,19 @@ import User from '#models/user'
 import Watchlist from '#models/watchlist'
 import { LoginForm } from '../forms/login-form.js'
 import { RegisterForm } from '../forms/register-form.js'
+import { TransactionClientContract } from '@adonisjs/lucid/types/database'
 
 export default class UserService {
-  static async register(data: RegisterForm) {
+  constructor() {}
+  async register(data: RegisterForm, trx: TransactionClientContract) {
     data.avatar = 'placeholder.png'
-    const user = await User.create(data)
+    const user = await User.create(data, { client: trx })
 
     if (user) {
       const userWatchlist = new Watchlist()
       userWatchlist.userId = user.id
-
-      const watchlist = await Watchlist.create(userWatchlist)
-      watchlist.save()
+      await Watchlist.create(userWatchlist, { client: trx })
     }
-
     return user
   }
 

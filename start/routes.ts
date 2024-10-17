@@ -17,6 +17,8 @@ const ProfilesController = () => import('#controllers/profiles_controller')
 const ActorsController = () => import('#controllers/actors_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+import TestsController from '#controllers/tests_controller'
+const DashboardController = () => import('#controllers/admin/dashboard_controller')
 
 router.get('/', [HomeController, 'index']).as('home')
 
@@ -58,11 +60,10 @@ router
 
 router
   .group(() => {
-    // router.get('/', [WatchlistsController, 'toggle']).as('index')
+    router.get('/', [DashboardController, 'handle']).as('dashboard')
   })
   .prefix('/admin')
   .as('admin')
-// .use(middleware.auth())
 
 router
   .group(() => {
@@ -74,3 +75,5 @@ router
   .as('watchlist')
 
 router.get('/actor/:slug', [ActorsController, 'show']).as('actor.show')
+
+router.get('/test', [TestsController, 'sendEmail'])
