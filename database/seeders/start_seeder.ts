@@ -3,6 +3,7 @@ import Roles from '#enums/role'
 import Actor from '#models/actor'
 import Genre from '#models/genre'
 import Movie from '#models/movie'
+import MoviePicture from '#models/movie_picture'
 import Role from '#models/role'
 import Watchlist from '#models/watchlist'
 
@@ -305,6 +306,37 @@ export default class extends BaseSeeder {
       },
     ])
 
+    await MoviePicture.createMany([
+      {
+        image: 'superman_shooting_1.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_2.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_3.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_4.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_5.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_6.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_7.jpg',
+        movieId: 1,
+      },
+    ])
+
     await UserFactory.createMany(5)
     const watchlists = await Watchlist.createMany([
       {
@@ -323,6 +355,7 @@ export default class extends BaseSeeder {
         userId: 5,
       },
     ])
+
     await this.#attachActors(actors, movies)
     await this.#attachMovies(watchlists, movies)
     await this.#attachGenres(genres, movies)

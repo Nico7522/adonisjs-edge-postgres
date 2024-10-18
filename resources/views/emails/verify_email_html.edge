@@ -10,13 +10,13 @@
       <h2
         style="width: 100%; margin: 0; color: white; text-align: center; background-color: rgb(6, 67, 85);"
       >
-        Hey {{data}} !
+        Hey {{data.firstname}} !
       </h2>
       <div style="display: inline;">
         Confirm your account by clicking
       </div>
       <a
-        href="http://localhost:3333/confirm-account"
+        href="http://localhost:3333/auth/verify-email/{{ data.token }}"
         style="background-color: rgb(6, 67, 85); color: white; display: inline-block; padding: 3px;
                 margin-top: 15px;
                 text-decoration: none;

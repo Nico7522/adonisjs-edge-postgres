@@ -15,10 +15,11 @@ const HomeController = () => import('#controllers/home_controller')
 const WatchlistsController = () => import('#controllers/watchlists_controller')
 const ProfilesController = () => import('#controllers/profiles_controller')
 const ActorsController = () => import('#controllers/actors_controller')
+const VerifyEmailsController = () => import('#controllers/auth/verify_emails_controller')
+const DashboardController = () => import('#controllers/admin/dashboard_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 import TestsController from '#controllers/tests_controller'
-const DashboardController = () => import('#controllers/admin/dashboard_controller')
 
 router.get('/', [HomeController, 'index']).as('home')
 
@@ -49,6 +50,15 @@ router
     router
       .post('/register', [RegisterController, 'store'])
       .as('register.store')
+      .use(middleware.guest())
+
+    router
+      .get('/verify-email', [VerifyEmailsController, 'show'])
+      .as('verify-email.show')
+      .use(middleware.guest())
+    router
+      .get('/verify-email/:token', [VerifyEmailsController, 'verify'])
+      .as('verify-email.verify')
       .use(middleware.guest())
     router.get('/login', [LoginController, 'show']).as('login.show').use(middleware.guest())
     router.post('/login', [LoginController, 'store']).as('login.store').use(middleware.guest())

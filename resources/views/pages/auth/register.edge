@@ -66,12 +66,15 @@
             Register
           @end
             
+          @flashMessage('error')
+            <div class="text-red-600 text-center text-sm bg-red-200 py-5 rounded-lg">
+              {{ flashMessages.values.error }}
+            </div>
+          @end
+          
         </form>
       </div>
 
-      @flashMessage('error')
-        <span class="text-red-500">{{ flashMessages.values.error }}</span>
-      @end
     </div>
 
   @end
