@@ -1,3 +1,4 @@
+import Token from '#models/token'
 import User from '#models/user'
 import Watchlist from '#models/watchlist'
 import { LoginForm } from '../forms/login-form.js'
@@ -28,5 +29,18 @@ export default class UserService {
     const user = await User.findOrFail(userId)
     await user.merge(data)
     await user.save()
+  }
+
+  async verifyEmail(token: string) {
+    const { isValid, userId } = await Token.verify(token, 'VERIFY_EMAIL')
+
+    const user = await User.find(userId)
+
+    if (isValid && user) {
+      user.isEmailVerified = true
+      user.save()
+    }
+
+    return isValid && user !== null
   }
 }

@@ -76,7 +76,7 @@ export default class Token extends BaseModel {
       .where('type', type)
       .first()
 
-    return !!record
+    return { isValid: !!record, userId: record?.userId }
   }
 
   static async expiresTokens(

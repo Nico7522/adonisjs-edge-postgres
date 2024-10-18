@@ -1,8 +1,12 @@
 @shared.layouts({title: 'Verify Email Confirmation'})
 
   @if(isConfirmed)
-    <div class="flex flex-col justify-center w-2/6 m-auto rounded-lg shadow-xl mt-20  bg-green-200 ">
-      <h1 class="justify-center items-center inline-flex text-2xl mt-10 pb-10  text-green-600 font-bold">
+    <div
+      class="flex flex-col justify-center w-4/6 md:w-2/6 m-auto rounded-lg shadow-xl mt-20  bg-green-200 "
+    >
+      <h1
+        class="justify-center items-center flex-col inline-flex text-2xl mt-10 pb-10  text-green-600 font-bold"
+      >
         Account confirmed
         <span class="mt-1">
           @svg('lucide:circle-check-big', { color: green,width: 40})
@@ -17,23 +21,34 @@
     </div>
   @else
     <div
-      class="flex flex-col justify-center w-2/6 m-auto rounded-lg shadow-xl mt-20  bg-red-200 font-bold "
+      class="flex flex-col justify-center w-4/6 md:w-2/6 m-auto rounded-lg shadow-xl mt-20  bg-red-200 font-bold "
     >
-      <h1 class="justify-center items-center inline-flex text-2xl mt-10 pb-10 text-red-600">
+      <h1
+        class="justify-center items-center flex-col text-center inline-flex text-2xl mt-10 pb-10 text-red-600"
+      >
         Account could not be confirmed
-            <span class="mt-1">
+            <span class="mt-1  ">
           @svg('lucide:circle-x', {
                   color: red,
                   width: 40
           })
         </span>
       </h1>
-      @shared.button({
-        href: route('home'),
-        class: 'text-center font-lato bg-gray-900 w-30 m-auto rounded text-white px-5 py-2 mb-5 hover:bg-gray-600'
-      })
-        Back to Home
-      @end
+      <div class="flex flex-col lg:flex-row mx-20 lg:mx-0">
+        @shared.button({
+            href: route('home'),
+            class: 'text-center font-lato bg-gray-900 w-30 m-auto rounded text-white px-5 py-2 mb-5 hover:bg-gray-600'
+        })
+          Back to Home
+        @end
+        @shared.button({
+            href: route('home'),
+            class: 'text-center font-lato bg-gray-900 w-30 m-auto rounded text-white px-5 py-2 mb-5 hover:bg-gray-600'
+        })
+          Resend Email
+        @end
+        
+      </div>
     </div>
   @endif
 @end
