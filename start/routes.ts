@@ -51,6 +51,15 @@ router
       .post('/register', [RegisterController, 'store'])
       .as('register.store')
       .use(middleware.guest())
+    router
+      .get('/verify-email/resend', [VerifyEmailsController, 'showResendVerifyEmailToken'])
+      .as('verify-email-resend.show')
+      .use(middleware.guest())
+
+    router
+      .post('/verify-email/resend', [VerifyEmailsController, 'resendVerifyEmailToken'])
+      .as('verify-email-resend.store')
+      .use(middleware.guest())
 
     router
       .get('/verify-email', [VerifyEmailsController, 'show'])
