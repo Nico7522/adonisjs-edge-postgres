@@ -18,6 +18,10 @@
   padding: 0;
 }
 
+main {
+  background: rgb(3,27,45);
+  background: linear-gradient(173deg, rgba(3,27,45,1) 45%, rgba(25,81,124,1) 100%);
+}
 html,
 body {
   height: 100%;
@@ -72,3 +76,45 @@ form {
 }
 
 
+
+/* Button  */
+.btn {
+  border-radius: 4px;
+  background-color: rgb(17 24 39);
+  border: none;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  padding: 6px;
+  width: 220px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-left: 15px;
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7);
+}
+
+.btn{
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.btn:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;  
+  top: 5px;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.btn:hover{
+  padding-right: 24px;
+  padding-left:8px;
+}
+
+.btn:hover:after {
+  opacity: 1;
+  right: 10px;
+}

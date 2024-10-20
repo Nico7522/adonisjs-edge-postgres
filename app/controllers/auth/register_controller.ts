@@ -22,14 +22,7 @@ export default class RegisterController {
     const trx = await db.transaction()
     try {
       const user = await this._userService.register(data as RegisterForm, trx)
-      const token = await Token.generateVerifyEmailToken(user)
-      await this._emailService.sendEmail(
-        user.email,
-        'nico.daddabbo7100@gmail.com',
-        'Account Confirmation',
-        'emails/verify_email_html',
-        { firstname: user.firstname, token }
-      )
+      await this._emailService.sendVerifyEmail(user)
 
       trx.commit()
       return response.redirect().toRoute('auth.verify-email.show')

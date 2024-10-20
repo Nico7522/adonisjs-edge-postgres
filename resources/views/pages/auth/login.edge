@@ -59,19 +59,19 @@
             </div>
           @end
           @flashMessage('accountUnconfirmed')
-          @end
-          <div class="text-center bg-red-200 p-5 rounded-lg flex flex-col">
-            {{-- <span class="text-red-500">{{ flashMessages.values.accountUnconfirmed }}</span> --}}
-            <span class="text-red-500">Please confirm your account</span>
+            <div class="text-center bg-red-200 p-5 rounded-lg flex flex-col">
+              {{-- <span class="text-red-500">{{ flashMessages.values.accountUnconfirmed }}</span> --}}
+              <span class="text-red-500">Please confirm your account</span>
 
-            @shared.button({
+              @shared.button({
                 href: route('auth.verify-email-resend.show'),
                 class: 'text-center font-lato bg-gray-900 text-sm m-auto rounded text-white px-5 py-2 mt-2 hover:bg-gray-600'
-            })
-              Resend confirmation link
-            @end
+              })
+                Resend confirmation link
+              @end
               
-          </div>
+            </div>
+          @end
         </form>
 
       </div>

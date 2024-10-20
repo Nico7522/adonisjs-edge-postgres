@@ -7,6 +7,13 @@ import { TransactionClientContract } from '@adonisjs/lucid/types/database'
 
 export default class UserService {
   constructor() {}
+
+  async GetByEmail(email: string) {
+    const user = await User.findByOrFail('email', email)
+
+    return user
+  }
+
   async register(data: RegisterForm, trx: TransactionClientContract) {
     data.avatar = 'placeholder.png'
     const user = await User.create(data, { client: trx })
