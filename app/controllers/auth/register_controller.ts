@@ -17,7 +17,7 @@ export default class RegisterController {
     return view.render('pages/auth/register')
   }
 
-  async store({ request, response, session, view }: HttpContext) {
+  async store({ request, response, session }: HttpContext) {
     const data = await request.validateUsing(registerValidator)
     const trx = await db.transaction()
     try {
@@ -25,7 +25,7 @@ export default class RegisterController {
       await this._emailService.sendVerifyEmail(user)
 
       trx.commit()
-      return response.redirect().toRoute('auth.verify-email.show')
+      return response.redirect().toRoute('auth.email-sent.show')
     } catch (error) {
       trx.rollback()
       session.flash('error', 'Something went wrong during the process, please try later')

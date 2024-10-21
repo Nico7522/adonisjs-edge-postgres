@@ -20,6 +20,7 @@ const DashboardController = () => import('#controllers/admin/dashboard_controlle
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 import TestsController from '#controllers/tests_controller'
+router.get('/test', [TestsController, 'sendEmail'])
 
 router.get('/', [HomeController, 'index']).as('home')
 
@@ -52,18 +53,18 @@ router
       .as('register.store')
       .use(middleware.guest())
     router
-      .get('/verify-email/resend', [VerifyEmailsController, 'showResendVerifyEmailToken'])
-      .as('verify-email-resend.show')
+      .get('/verify-email/sent-back', [VerifyEmailsController, 'showSentBackVerifyEmailTokenPage'])
+      .as('verify-email-sent-back.show')
       .use(middleware.guest())
 
     router
-      .post('/verify-email/resend', [VerifyEmailsController, 'resendVerifyEmailToken'])
-      .as('verify-email-resend.store')
+      .post('/verify-email/sent-back', [VerifyEmailsController, 'sentBackVerifyEmailToken'])
+      .as('verify-email-sent-back.store')
       .use(middleware.guest())
 
     router
       .get('/verify-email', [VerifyEmailsController, 'show'])
-      .as('verify-email.show')
+      .as('email-sent.show')
       .use(middleware.guest())
     router
       .get('/verify-email/:token', [VerifyEmailsController, 'verify'])
@@ -73,7 +74,29 @@ router
     router.post('/login', [LoginController, 'store']).as('login.store').use(middleware.guest())
 
     router.post('/logout', [LogoutController, 'handle']).as('logout').use(middleware.auth())
+
+    router
+      .get('/forgot-password', [LoginController, 'showForgotPasswordPage'])
+      .as('forgot-password.show')
+      .use(middleware.guest())
+
+    router
+      .post('/forgot-password', [LoginController, 'sendForgotPasswordToken'])
+      .as('forgot-password.store')
+      .use(middleware.guest())
+
+    router
+      .post('/reset-password/:token', [LoginController, 'resetPassword'])
+      .as('forgot-password.change')
+      .use(middleware.guest())
+
+    // Show form
+    router
+      .get('/reset-password/:token', [LoginController, 'showResetPasswordPage'])
+      .as('forgot-password.reset')
+      .use(middleware.guest())
   })
+
   .prefix('/auth')
   .as('auth')
 
@@ -94,5 +117,3 @@ router
   .as('watchlist')
 
 router.get('/actor/:slug', [ActorsController, 'show']).as('actor.show')
-
-router.get('/test', [TestsController, 'sendEmail'])

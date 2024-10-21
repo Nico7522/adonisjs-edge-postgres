@@ -1,4 +1,3 @@
-
 @shared.layouts({title: "Login"})
   <div class="flex flex-col items-center mt-6 px-6 py-8 mx-auto md:h-screen lg:py-0">
 
@@ -44,10 +43,9 @@
           </div>
           <div class="flex items-center">
             <a
-              href="#"
+              href="{{ route('auth.forgot-password.show') }}"
               class="text-sm text-blue-400 font-medium text-primary-600 hover:underline dark:text-primary-500"
             >Forgot password ?</a>
-
           </div>
 
           @shared.button({type: 'submit', class: "w-full bg-gray-700 text-white bg-primary-600 focus:border-2 focus:border-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
@@ -60,11 +58,10 @@
           @end
           @flashMessage('accountUnconfirmed')
             <div class="text-center bg-red-200 p-5 rounded-lg flex flex-col">
-              {{-- <span class="text-red-500">{{ flashMessages.values.accountUnconfirmed }}</span> --}}
-              <span class="text-red-500">Please confirm your account</span>
+              <span class="text-red-500">{{ flashMessages.values.accountUnconfirmed }}</span>
 
               @shared.button({
-                href: route('auth.verify-email-resend.show'),
+                href: route('auth.verify-email-sent-back.show'),
                 class: 'text-center font-lato bg-gray-900 text-sm m-auto rounded text-white px-5 py-2 mt-2 hover:bg-gray-600'
               })
                 Resend confirmation link

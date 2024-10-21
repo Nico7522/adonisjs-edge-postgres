@@ -1,6 +1,6 @@
 import EmailService from '#services/email_service'
 import UserService from '#services/user_service'
-import { verifyEmailValidator } from '#validators/auth'
+import { emailValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -13,17 +13,23 @@ export default class VerifyEmailsController {
 
   // Show the verify email sent page.
   async show({ view }: HttpContext) {
-    return view.render('pages/auth/verify-email')
+    return view.render('pages/auth/email-sent', {
+      title: 'Email Sent',
+      text: 'A email has been send to your email adress',
+    })
   }
 
   // Show the form to sent back a confirmation email.
-  async showResendVerifyEmailToken({ view }: HttpContext) {
-    return view.render('pages/auth/verify-email-token-resend')
+  async showSentBackVerifyEmailTokenPage({ view }: HttpContext) {
+    return view.render('pages/auth/email-form', {
+      title: 'Email confirmation',
+      targetRoute: 'auth.verify-email-sent-back.store',
+    })
   }
 
   // Show the verify email sent page after sent back a confirmation email.
-  async resendVerifyEmailToken({ request, view, response, session }: HttpContext) {
-    const data = await request.validateUsing(verifyEmailValidator)
+  async sentBackVerifyEmailToken({ request, view, response, session }: HttpContext) {
+    const data = await request.validateUsing(emailValidator)
 
     try {
       const user = await this._userService.GetByEmail(data.email)
@@ -33,8 +39,12 @@ export default class VerifyEmailsController {
         return response.redirect().back()
       }
 
-      if (user) await this._emailService.sendVerifyEmail(user)
-      return view.render('pages/auth/verify-email')
+      if (user)
+        await this._emailService.sendToken(user, 'emails/verify_email_html', 'verifyEmailToken')
+      return view.render('pages/auth/email-sent', {
+        title: 'Email Send',
+        text: 'A email has been send to your email.',
+      })
     } catch (error) {
       if (error.status === 404) {
         session.flash('error', 'User not found')
