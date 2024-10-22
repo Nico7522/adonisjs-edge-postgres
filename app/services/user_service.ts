@@ -1,3 +1,4 @@
+import InvalidTokenException from '#exceptions/invalid_token_exception'
 import Token from '#models/token'
 import User from '#models/user'
 import Watchlist from '#models/watchlist'
@@ -49,5 +50,19 @@ export default class UserService {
     }
 
     return isValid && user !== null
+  }
+
+  async changePassword(password: string, token: string) {
+    const { isValid, userId } = await Token.verify(token, 'PASSWORD_RESET')
+
+    if (isValid) {
+      const user = await User.findByOrFail('id', userId)
+      if (user) {
+        user.password = password
+        user.save()
+      }
+    } else {
+      throw new InvalidTokenException()
+    }
   }
 }

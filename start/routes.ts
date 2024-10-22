@@ -87,13 +87,13 @@ router
 
     router
       .post('/reset-password/:token', [LoginController, 'resetPassword'])
-      .as('forgot-password.change')
+      .as('reset-password.store')
       .use(middleware.guest())
 
     // Show form
     router
       .get('/reset-password/:token', [LoginController, 'showResetPasswordPage'])
-      .as('forgot-password.reset')
+      .as('reset-password.show')
       .use(middleware.guest())
   })
 

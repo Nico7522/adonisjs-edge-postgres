@@ -7,7 +7,6 @@ export default class ActorService {
     if (actor) {
       await actor.load('movies')
     }
-    console.log(actor.birthdate)
 
     return actor
   }

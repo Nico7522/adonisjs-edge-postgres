@@ -13,7 +13,6 @@ export default class ProfilesController {
     if (user) {
       await user.load('watchlist')
       await user.watchlist.load('movies')
-      console.log(user.watchlist)
     }
 
     let formatedBirthdate = user?.birthdate.toLocaleDateString()

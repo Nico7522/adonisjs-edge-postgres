@@ -3,6 +3,7 @@ import UserService from '#services/user_service'
 import { emailValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import Helper from '../../helpers/helper.js'
 
 @inject()
 export default class VerifyEmailsController {
@@ -46,11 +47,13 @@ export default class VerifyEmailsController {
         text: 'A email has been send to your email.',
       })
     } catch (error) {
+      let message
       if (error.status === 404) {
-        session.flash('error', 'User not found')
+        message = 'User not found'
       } else {
-        session.flash('error', 'Sorry, something went wrong')
+        message = 'Something went wrong'
       }
+      Helper.setFlashMessage(session, 'error', message)
       return response.redirect().back()
     }
   }

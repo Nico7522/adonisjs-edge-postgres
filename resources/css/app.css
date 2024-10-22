@@ -19,8 +19,8 @@
 }
 
 main {
-  background: rgb(3,27,45);
-  background: linear-gradient(173deg, rgba(3,27,45,1) 45%, rgba(25,81,124,1) 100%);
+  background: rgb(2,5,8);
+  background: radial-gradient(circle, rgba(2,5,8,1) 45%, rgba(0,5,8,1) 100%);
 }
 html,
 body {

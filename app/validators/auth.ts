@@ -1,6 +1,11 @@
-import { passwordMatchRule } from '#start/rules/password_matching'
 import vine from '@vinejs/vine'
-import { table } from 'console'
+
+import { SimpleMessagesProvider } from '@vinejs/vine'
+
+vine.messagesProvider = new SimpleMessagesProvider({
+  minLength: 'The field must have at least {{ min }} characters',
+  confirmed: 'Password not match',
+})
 
 export const registerValidator = vine.compile(
   vine.object({
@@ -29,9 +34,8 @@ export const emailValidator = vine.compile(
 export const resetPasswordValidator = vine.compile(
   vine.object({
     password: vine.string().minLength(8),
-    passwordConfirm: vine
-      .string()
-      .use(passwordMatchRule({ table: '', column: '' }))
-      .minLength(8),
+    passwordConfirm: vine.string().minLength(8).confirmed({
+      confirmationField: 'password',
+    }),
   })
 )

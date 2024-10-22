@@ -4,6 +4,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import { LoginForm } from '../../forms/login-form.js'
 import { inject } from '@adonisjs/core'
 import EmailService from '#services/email_service'
+import Helper from '../../helpers/helper.js'
 @inject()
 export default class LoginController {
   constructor(
@@ -59,8 +60,21 @@ export default class LoginController {
     return view.render('pages/auth/reset-password', { token: params['token'] })
   }
 
-  async resetPassword({ view, request }: HttpContext) {
+  async resetPassword({ session, request, response, params }: HttpContext) {
     const data = await request.validateUsing(resetPasswordValidator)
-    return view.render('pages/auth/login')
+    const token = params['token']
+    try {
+      await this._userService.changePassword(data.password, token)
+      return response.redirect().toRoute('auth.login.show')
+    } catch (error) {
+      let message
+      if (error.status === 404) {
+        message = 'User not found'
+      } else {
+        message = 'Invalid token'
+      }
+      Helper.setFlashMessage(session, 'error', message)
+      return response.redirect().back()
+    }
   }
 }
