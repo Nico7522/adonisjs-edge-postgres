@@ -17,7 +17,7 @@ const ProfilesController = () => import('#controllers/profiles_controller')
 const ActorsController = () => import('#controllers/actors_controller')
 const VerifyEmailsController = () => import('#controllers/auth/verify_emails_controller')
 const DashboardController = () => import('#controllers/admin/dashboard_controller')
-import TestsController from '#controllers/tests_controller'
+const TestsController = () => import('#controllers/tests_controller')
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 router.get('/test', [TestsController, 'test'])
@@ -98,7 +98,6 @@ router
       .as('reset-password.show')
       .use(middleware.guest())
   })
-
   .prefix('/auth')
   .as('auth')
 
@@ -111,6 +110,7 @@ router
 
 router
   .group(() => {
+    router.get('/watchlist', [WatchlistsController, 'index']).as('index')
     router.post('/watchlist/:slug/toggle', [WatchlistsController, 'toggle']).as('toggle')
     router
       .post('/watchlist/:slug/toggle-watched', [WatchlistsController, 'toggleWatched'])

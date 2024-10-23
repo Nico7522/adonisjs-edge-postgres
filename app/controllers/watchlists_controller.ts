@@ -5,7 +5,13 @@ import type { HttpContext } from '@adonisjs/core/http'
 @inject()
 export default class WatchlistsController {
   constructor(private _watchlistService: WatchlistService) {}
-  async index({}: HttpContext) {}
+  async index({ view, auth }: HttpContext) {
+    await auth.user?.load('watchlist')
+    const watchlistId = auth.user!.watchlist.id
+    const watchlist = await this._watchlistService.get(watchlistId)
+
+    return view.render('pages/watchlist/watchlist', { watchlist })
+  }
 
   async toggle({ response, params, auth, session }: HttpContext) {
     const userId = auth.user!.id

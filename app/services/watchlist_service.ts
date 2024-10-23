@@ -2,6 +2,12 @@ import Movie from '#models/movie'
 import Watchlist from '#models/watchlist'
 
 export default class WatchlistService {
+  async get(watchlistId: number) {
+    const watchlist = await Watchlist.findOrFail(watchlistId)
+    await watchlist.load('movies')
+    return watchlist
+  }
+
   async toggle(userId: number, slug: string) {
     const movie = await Movie.query().where('slug', slug).firstOrFail()
     const watchlist = await Watchlist.query()

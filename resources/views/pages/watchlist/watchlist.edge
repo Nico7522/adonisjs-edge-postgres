@@ -1,0 +1,44 @@
+@shared.layouts({title: 'Your watchlist'})
+
+  <div class="h-[100vh] text-white bg-gray-900 my-5 mx-5 rounded-md shadow-lg">
+    <h2 class="text-3xl  font-lato p-5 border-b">
+      Your watchlist
+    </h2>
+
+    @if(watchlist.movies)
+      <div class="grid grid-cols-5 gap-4">
+        @each(movie in watchlist.movies)
+          <div class=" flex flex-col items-center justify-center">
+            <div class="relative">
+              <div class="absolute opacity-70  w-full h-full backdrop-blur-sm">
+                <div class="group mt-32 w-full flex flex-col items-center justify-center">
+                  <span class="opacity-0 transition-all ease-in duration-300 group-hover:opacity-100">Watched</span>
+                  @svg('lucide:eye', {
+                            width: 70,
+                            height : 70
+                  })
+
+                </div>
+              </div>
+              <img src="{{ movie.image }}" class="m-auto my-2 h-96 w-[270px] shadow-2xl" />
+            </div>
+            <h3 class="pl-5 text-2xl font-lato text-center">
+              {{ movie.title }}
+            </h3>
+            <div>
+              @shared.animatedButton({})
+                Remove
+              @end
+              @shared.animatedButton({})
+                Toggle watched
+              @end
+                
+            </div>
+          </div>
+        @end
+      </div>
+
+    @end
+  </div>
+
+@end
