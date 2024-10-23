@@ -5,6 +5,8 @@ import { MovieDetailsVM, MovieVM, Pagination } from '#view_models/movie'
 import { MovieSortOptions } from '#types/movie_sort_options'
 import router from '@adonisjs/core/services/router'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
+import { DateTime } from 'luxon'
+import User from '#models/user'
 export default class MovieService {
   moviesSortOptions: MovieSortOptions[] = [
     {
@@ -60,10 +62,20 @@ export default class MovieService {
   }
 
   async getLast() {
-    const lastMovie = await Movie.query().orderBy('release_date').limit(3)
+    const lastMovie = await Movie.query()
+      .orderBy('release_date', 'desc')
+      .where('release_date', '<=', DateTime.now().toString())
+      .limit(3)
+
     let moviesVM: MovieVM[] = this.#mapMovie(lastMovie)
 
     return moviesVM
+  }
+
+  async getLatestAdded() {
+    const latestMovieAdded = await Movie.query().orderBy('created_at', 'desc').firstOrFail()
+    let latestMovieAddedVM: MovieVM = latestMovieAdded.toMovieDetailsVM(latestMovieAdded)
+    return latestMovieAddedVM
   }
 
   async getOne(slug: string, userId: number | undefined) {
@@ -71,6 +83,7 @@ export default class MovieService {
       .where('slug', slug)
       .preload('actors')
       .preload('genres')
+      .preload('pictures')
 
       .if(userId !== undefined, (query) => {
         query.preload('watchlists', (query) => {
@@ -105,6 +118,70 @@ export default class MovieService {
     return moviesVM
   }
 
+  async getMostWatched() {
+    const mostWatchedMovie = await Movie.query()
+      .preload('watchlists')
+      .join('watchlist_movies', 'movies.id', 'watchlist_movies.movie_id')
+      .where('watchlist_movies.watched', true)
+      .select('movies.*')
+      .count('watchlist_movies.movie_id', 'count')
+      .groupBy('movies.id', 'movies.title')
+      .orderBy('count', 'desc')
+      .limit(1)
+    let mostWatchedMovieVM: MovieVM[] = this.#mapMovie(mostWatchedMovie)
+    return mostWatchedMovieVM[0]
+  }
+
+  async getMovieToSuggest(userId: number | undefined) {
+    if (!userId) return
+
+    const user = await User.findByOrFail('id', userId)
+    if (!user) return
+
+    await user.load('watchlist')
+    await user.watchlist.load('movies')
+
+    if (user.watchlist.movies.length === 0) return
+
+    // Get the most represented genre in a user's watchlist
+    const favoriteGenre = await Movie.query()
+      .preload('genres')
+      .join('watchlist_movies', 'movies.id', 'watchlist_movies.movie_id')
+      .join('genre_movies', 'movies.id', 'genre_movies.movie_id')
+      .join('genres', 'genre_movies.genre_id', 'genres.id')
+      .join('watchlists', 'watchlist_movies.watchlist_id', 'watchlists.id')
+      .join('users', 'watchlists.user_id', 'users.id')
+      .select('genres.id', 'genres.name')
+      .count('genres.id')
+      .groupBy('genres.id')
+      .where('users.id', userId)
+      .orderBy('genres.id', 'desc')
+      .first()
+
+    if (favoriteGenre) {
+      // Get user watchlist movies
+      const movies = await Movie.query()
+        .preload('genres')
+        .join('watchlist_movies', 'movies.id', 'watchlist_movies.movie_id')
+        .join('watchlists', 'watchlist_movies.watchlist_id', 'watchlists.id')
+        .join('users', 'watchlists.user_id', 'users.id')
+        .where('users.id', userId)
+
+      // Return array of title
+      let moviesTitle = movies.map((m) => m.title)
+
+      // Get all movies not in the watchlist, with the prefered genre
+      const moviesToSuggest = await Movie.query()
+        .whereHas('genres', (query) => query.where('genres.id', favoriteGenre.$original.id))
+        .whereNotIn('movies.title', moviesTitle)
+        .limit(4)
+
+      const moviesToSuggestVM = this.#mapMovie(moviesToSuggest)
+
+      return moviesToSuggestVM
+    }
+  }
+
   #mapMovie(movies: Movie[]) {
     let moviesVM: MovieVM[] = movies.map((movie) => {
       return movie.toMovieVM(movie)
@@ -132,3 +209,10 @@ export default class MovieService {
     }
   }
 }
+
+// const movies = await Movie.query()
+// .preload('actors')
+// .where('movies.id', 1)
+// .join('movie_actors', 'movies.id', 'movie_actors.movie_id')
+// .join('actors', 'movie_actors.actor_id', 'actors.id')
+// .select('movies.*', 'actors.firstname')

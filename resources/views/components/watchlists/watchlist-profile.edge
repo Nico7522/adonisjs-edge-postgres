@@ -1,124 +1,14 @@
-<div id="controls-carousel" class="relative m-auto" data-carousel="static">
+<div class="flex items-center justify-center gap-3">
+  @each(movie in movies)
+    <div class="flex flex-col justify-center items-center  h-[450px]">
+      <img src="{{ movie.image }}" class="watchlist-image w-56 h-72" />
+      <h2 class="font-lato text-center text-3xl">
+        {{ movie.title }}
+      </h2>
 
-  <div class="relative carousel rounded-lg">
-
-    @each(movie in movies)
-      <div class="hidden duration-700 ease-in-out w-full overflow-y-auto" data-carousel-item>
-        <div class="flex flex-col items-center lg:items-stretch lg:flex-row h-full">
-          <img src="{{ movie.image }}" class="watchlist-image rounded-lg xl:ml-56 pt-5 shadow-2xl	" />
-          <div
-            class=" lg:border-l lg:border-l-gray-200 flex flex-col items-center w-full pb-10 lg:pb-0 lg:ml-10"
-          >
-            <h3 class="text-white font-reddit text-4xl mb-2 pt-7">
-              {{ movie.title }}
-            </h3>
-            @if(movie.$extras.pivot_watched)
-              <span class="flex items-center gap-2 font-reddit mb-2">Watched
-                @svg('lucide:eye', {
-                  width: 40,
-                  height: 40,
-                  color: 'green'
-                })
-              </span>
-            @else
-              <span class="flex items-center gap-2 font-reddit mb-2">Not watched
-                @svg('lucide:eye-off', {
-                  width: 40,
-                  height: 40,
-                })
-              </span>
-
-            @endif
-            <h3 class="text-white font-reddit text-4xl pt-7">
-              Added on :
-            </h3>
-            <span class="mb-5 -ml-3">{{ movie.$extras.pivot_created_at.toFormat('LLL dd yyyy') }}</span>
-            <div class="h-10 mt-10 gap-2 flex flex-col justify-center items-center">
-              <form
-                class="w-full flex flex-col justify-center"
-                method="POST"
-                action="{{ route('watchlist.toggle', { slug: movie.slug}) }}"
-              >
-                {{ csrfField() }}
-                @shared.button({class: "max-h-10 h-10 mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2 dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800"})
-
-                  Remove
-                @end
-              </form>
-              <form
-                class="w-full"
-                method="POST"
-                action="{{ route('watchlist.toggle.watched', {slug: movie.slug}) }}"
-              >
-                {{ csrfField() }}
-                @shared.button({class: "max-h-10 h-10 mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2 dark:bg-blue-900 dark:hover:bg-blue-700 dark:focus:ring-blue-800"})
-                  Set watched
-                @end
-                  
-              </form>
-
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    @end
-      
-  </div>
-  @if(movies.length > 1)
-    <button
-      type="button"
-      class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-      data-carousel-prev
-    >
-      <span
-        class="inline-flex border border-white  items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-      >
-        <svg
-          class="w-4 h-4 text-white dark:text-white rtl:rotate-180"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 6 10"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 1 1 5l4 4"
-          />
-        </svg>
-        <span class="sr-only">Previous</span>
-      </span>
-    </button>
-    <button
-      type="button"
-      class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-      data-carousel-next
-    >
-      <span
-        class="inline-flex items-center border border-white justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
-      >
-        <svg
-          class="w-4 h-4 text-white dark:text-white rtl:rotate-180"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 6 10"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="m1 9 4-4-4-4"
-          />
-        </svg>
-        <span class="sr-only">Next</span>
-      </span>
-    </button>
-
+    </div>
   @end
+  
+  
 </div>
+

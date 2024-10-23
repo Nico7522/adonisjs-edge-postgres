@@ -1,0 +1,32 @@
+@shared.layouts({title: 'Resend Email'})
+
+  <div class="w-3/6 m-auto mt-20">
+    <form method="POST" action="{{ route('auth.verify-email-resend.store') }}">
+      {{ csrfField() }}
+      @!form.input({
+            label: 'Email',
+            name: 'email',
+            class: 'shadow-xl',
+            required: true,
+            placeholder: 'john.doe@gmail.com',
+            type: 'email'
+      })
+
+      @shared.button({type: 'submit', class: "shadow-xl mt-5 bg-gray-700 text-white bg-primary-600 focus:border-2 focus:border-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+        Send
+      @end
+      
+      @flashMessage('accountConfirmed')
+        <div class="text-center bg-red-200 p-5 rounded-lg flex flex-col mt-5">
+          <span class="text-red-500">{{ flashMessages.values.accountConfirmed }}</span>
+        </div>
+      @end
+      
+      @flashMessage('error')
+        <div class="text-center bg-red-200 p-5 rounded-lg flex flex-col mt-5">
+          <span class="text-red-500">{{ flashMessages.values.error }}</span>
+        </div>
+      @end
+    </form>
+  </div>
+@end

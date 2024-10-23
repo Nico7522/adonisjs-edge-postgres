@@ -3,6 +3,7 @@ import Roles from '#enums/role'
 import Actor from '#models/actor'
 import Genre from '#models/genre'
 import Movie from '#models/movie'
+import MoviePicture from '#models/movie_picture'
 import Role from '#models/role'
 import Watchlist from '#models/watchlist'
 
@@ -29,6 +30,7 @@ export default class extends BaseSeeder {
       {
         firstname: 'Henry',
         lastname: 'Cavill',
+        image: 'henry-cavill.jpg',
       },
       {
         firstname: 'Nicolas',
@@ -58,6 +60,7 @@ export default class extends BaseSeeder {
           'https://m.media-amazon.com/images/S/pv-target-images/9165f22786da45ae83dba59dd16d77e8ab43053329c47bcf9d66c121daa57207.jpg',
         realisator: 'Richard Donner',
         rating: null,
+        banner: 'sp-banner.jpg',
         releaseDate: DateTime.fromISO('2025-07-11'),
         summary:
           "Juste avant l'explosion de la planète Krypton, Jor-El décide de sauver son fils en l'envoyant sur Terre. Le nourrisson est recueilli par le couple Kent qui décide de l'élever comme leur propre fils. L'enfant se met à développer des pouvoirs hors du commun. Une fois adulte, Clark Kent, journaliste au Daily Planet, souhaite mener une vie normale. Il ne renie pas pour autant ses capacités à sauver le monde et devient alors Superman.",
@@ -65,7 +68,7 @@ export default class extends BaseSeeder {
       {
         title: 'Spiderman',
         image: 'https://fr.web.img4.acsta.net/pictures/21/11/16/10/01/4860598.jpg',
-
+        banner: 'spiderman-banner.jpg',
         rating: 4,
         realisator: 'Sam Raimi',
         releaseDate: DateTime.fromISO('2002-06-26'),
@@ -75,7 +78,7 @@ export default class extends BaseSeeder {
       {
         title: 'Batman',
         image: 'https://fr.web.img5.acsta.net/pictures/22/02/16/17/42/3125788.jpg',
-
+        banner: 'batman-banner.jpg',
         rating: 3,
         realisator: 'Matt Reeves',
         releaseDate: DateTime.fromISO('2022-03-22'),
@@ -88,6 +91,7 @@ export default class extends BaseSeeder {
           'https://static.wikia.nocookie.net/marvelstudios/images/1/1e/Iron_Man_Official_Poster.jpg/revision/latest?cb=20210126185106&path-prefix=fr',
         rating: 5,
         realisator: 'Jon Favreau',
+        banner: 'im-banner.jpg',
         releaseDate: DateTime.fromISO('2008-04-30'),
         summary:
           'Tony Stark crée une armure sophistiquée pour échapper à des terroristes et devient Iron Man, un héros destiné à protéger le monde.',
@@ -95,6 +99,7 @@ export default class extends BaseSeeder {
       {
         title: 'Thor',
         rating: 4,
+        banner: 'thor-banner.jpg',
         realisator: 'Kenneth Branagh',
         image: 'https://lumiere-a.akamaihd.net/v1/images/image_06aa7fbd.jpeg',
         releaseDate: DateTime.fromISO('2011-05-06'),
@@ -108,6 +113,7 @@ export default class extends BaseSeeder {
 
         rating: 5,
         realisator: 'Joss Whedon',
+        banner: 'avg-banner.jpg',
         releaseDate: DateTime.fromISO('2012-04-25'),
         summary:
           "L'équipe des Avengers est formée pour défendre la Terre contre Loki et son armée extraterrestre.",
@@ -116,7 +122,7 @@ export default class extends BaseSeeder {
         title: 'Inception',
         rating: 5,
         image: 'https://media.senscritique.com/media/000012872126/0/inception.jpg',
-
+        banner: 'inception-banner.jpg',
         realisator: 'Christopher Nolan',
         releaseDate: DateTime.fromISO('2010-07-16'),
         summary:
@@ -125,6 +131,7 @@ export default class extends BaseSeeder {
       {
         title: 'The Matrix',
         rating: 5,
+        banner: 'matrix-banner.jpg',
         image:
           'https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_.jpg',
 
@@ -136,6 +143,7 @@ export default class extends BaseSeeder {
       {
         title: 'Interstellar',
         rating: 4,
+        banner: 'interstellar-banner.jpg',
         image:
           'https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg',
 
@@ -152,6 +160,7 @@ export default class extends BaseSeeder {
 
         realisator: 'Francis Ford Coppola',
         releaseDate: DateTime.fromISO('1972-03-24'),
+        banner: 'gf-banner.jpg',
         summary:
           "L'histoire de la famille Corleone, une des familles les plus puissantes de la mafia italo-américaine.",
       },
@@ -159,7 +168,7 @@ export default class extends BaseSeeder {
         title: 'Pulp Fiction',
         rating: 5,
         image: 'https://fr.web.img4.acsta.net/medias/nmedia/18/36/02/52/18846059.jpg',
-
+        banner: 'pf-banner.jpg',
         realisator: 'Quentin Tarantino',
         releaseDate: DateTime.fromISO('1994-10-14'),
         summary:
@@ -168,6 +177,7 @@ export default class extends BaseSeeder {
       {
         title: 'Fight Club',
         rating: 4,
+        banner: 'fc-banner.jpg',
         image:
           'https://static.wikia.nocookie.net/film/images/1/17/Fightclub.jpg/revision/latest?cb=20240106221416&path-prefix=fr',
 
@@ -179,6 +189,7 @@ export default class extends BaseSeeder {
       {
         title: 'The Shawshank Redemption',
         rating: 5,
+        banner: 'tsr-banner.jpg',
         image:
           'https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_.jpg',
 
@@ -191,7 +202,7 @@ export default class extends BaseSeeder {
         title: 'Forrest Gump',
         rating: 5,
         image: 'https://fr.web.img4.acsta.net/pictures/15/10/13/15/12/514297.jpg',
-
+        banner: 'fg-banner.jpg',
         realisator: 'Robert Zemeckis',
         releaseDate: DateTime.fromISO('1994-07-06'),
         summary:
@@ -199,6 +210,7 @@ export default class extends BaseSeeder {
       },
       {
         title: 'Gladiator',
+        banner: 'gladiator-banner.jpg',
         rating: 4,
         image:
           'https://www.ecranlarge.com/content/uploads/2020/07/5gjou3t2qrznujqjcg7fqdmi76t-349.jpg',
@@ -211,6 +223,7 @@ export default class extends BaseSeeder {
       {
         title: 'The Dark Knight',
         rating: 5,
+        banner: 'tdk-banner.jpg',
         image:
           'https://static.cinebel.be/img/movie/poster/full/1007654_fr_the_dark_knight_rises_1340959516087.jpg',
 
@@ -222,6 +235,7 @@ export default class extends BaseSeeder {
       {
         title: 'Jaws',
         rating: 4,
+        banner: 'jaws-banner.jpg',
         image:
           'https://static.wikia.nocookie.net/jaws/images/d/da/Jaws-movie-poster.jpg/revision/latest?cb=20131015071208',
 
@@ -233,6 +247,7 @@ export default class extends BaseSeeder {
       {
         title: "Schindler's List",
         rating: 5,
+        banner: 'sl-banner.jpg',
         image:
           'https://m.media-amazon.com/images/M/MV5BNjJkZjFhZjItMzFmNy00YjQ2LThiNGEtNjlmNTQ0NTJhYjZhXkEyXkFqcGc@._V1_.jpg',
 
@@ -244,6 +259,7 @@ export default class extends BaseSeeder {
       {
         title: 'The Lord of the Rings: The Fellowship of the Ring',
         rating: 5,
+        banner: 'tlotr-banner.jpg',
         image:
           'https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p28828_p_v8_ao.jpg',
 
@@ -259,6 +275,7 @@ export default class extends BaseSeeder {
           'https://m.media-amazon.com/images/M/MV5BOGUwMDk0Y2MtNjBlNi00NmRiLTk2MWYtMGMyMDlhYmI4ZDBjXkEyXkFqcGc@._V1_.jpg',
 
         realisator: 'George Lucas',
+        banner: 'sw-banner.jpg',
         releaseDate: DateTime.fromISO('1977-05-25'),
         summary:
           "Luke Skywalker rejoint une rébellion pour affronter l'Empire Galactique et restaurer la paix dans la galaxie.",
@@ -289,6 +306,37 @@ export default class extends BaseSeeder {
       },
     ])
 
+    await MoviePicture.createMany([
+      {
+        image: 'superman_shooting_1.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_2.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_3.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_4.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_5.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_6.jpg',
+        movieId: 1,
+      },
+      {
+        image: 'superman_shooting_7.jpg',
+        movieId: 1,
+      },
+    ])
+
     await UserFactory.createMany(5)
     const watchlists = await Watchlist.createMany([
       {
@@ -307,6 +355,7 @@ export default class extends BaseSeeder {
         userId: 5,
       },
     ])
+
     await this.#attachActors(actors, movies)
     await this.#attachMovies(watchlists, movies)
     await this.#attachGenres(genres, movies)

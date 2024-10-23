@@ -10,6 +10,8 @@ export type MovieVM = {
   summary: string
   slug: string
   image: string | null
+  banner: string | null
+
   title: string
 }
 
@@ -18,6 +20,7 @@ export type MovieDetailsVM = MovieVM & {
   realisator: string
   releaseDate: string | null
   genres: Genre[]
+  shootingPictures: string[]
 }
 
 export type Pagination = {

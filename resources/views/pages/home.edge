@@ -1,12 +1,360 @@
 @shared.layouts({title: 'Home'})
-  <h2 class="text-white font-reddit text-5xl text-center mt-3">
-    Last releases
-  </h2>
-  <section class="py-5">
-    @each((movie, index) in movies)
+  <div class="w-full">
+    <div
+      class="relative w-full background"
+      style="background-image: url('/storage/uploads/banners/{{ latestMovieAdded.banner }}'); "
+    >
 
-      @!component('components/movie/movie', { movie, last: index + 1 === movies.length })
-    @end
-  </section>
+      <div class="relative overflow-hidden rounded-lg banner-content">
+        <h2 class="text-white font-lato font-bold text-5xl text-center mt-12">
+          Last film added
+        </h2>
 
+        <div class="mt-20 w-full lg:px-72">
+          @!component('components/movie/movie', { movie: latestMovieAdded })
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  @if(mostWatchedMovie)
+    <div class="w-full">
+
+      <div
+        class="relative w-full background"
+        style="background-image: url('/storage/uploads/banners/{{ mostWatchedMovie.banner }}');"
+      >
+
+        <div class="relative overflow-hidden rounded-lg banner-content">
+          <h2 class="text-white font-lato font-bold text-5xl text-center mt-12">
+            Most watched movie
+          </h2>
+          <div class="mt-20 w-full lg:px-72">
+            @!component('components/movie/movie', { movie: mostWatchedMovie })
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  @endif
+  
+  <div id="default-carousel" class="relative w-full" data-carousel="slide">
+    <!-- Carousel wrapper -->
+    <div class="relative wrapper h-[900px] overflow-hidden rounded-lg xl:h-[100vh]">
+      <h2 class="text-white font-lato font-bold text-5xl text-center mt-12 relative">
+        Last releases
+      </h2>
+      @each(movie in lastReleasedMovies)
+        <div
+          class="hidden duration-700 ease-in-out background"
+          data-carousel-item
+          style="background-image: url('/storage/uploads/banners/{{ movie.banner }}');"
+        >
+
+          <div class="shadow-wrapper">
+          </div>
+          <div class="lg:px-72 mt-40">
+            @!component('components/movie/movie', { movie })
+          </div>
+        </div>
+      @end
+      
+    </div>
+    <!-- Slider indicators -->
+    <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+      <button
+        type="button"
+        class="w-6 h-3"
+        aria-current="true"
+        aria-label="Slide 1"
+        data-carousel-slide-to="0"
+      ></button>
+      <button
+        type="button"
+        class="w-6 h-3"
+        aria-current="false"
+        aria-label="Slide 2"
+        data-carousel-slide-to="1"
+      ></button>
+      <button
+        type="button"
+        class="w-6 h-3"
+        aria-current="false"
+        aria-label="Slide 3"
+        data-carousel-slide-to="2"
+      ></button>
+
+    </div>
+    <!-- Slider controls -->
+    <button
+      type="button"
+      class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      data-carousel-prev
+    >
+      <span
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full dark:bg-gray-700 group-hover:bg-white dark:group-hover:bg-white group-focus:ring-4 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+      >
+        <svg
+          class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 1 1 5l4 4"
+          />
+        </svg>
+        <span class="sr-only">Previous</span>
+      </span>
+    </button>
+    <button
+      type="button"
+      class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      data-carousel-next
+    >
+      <span
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full dark:bg-gray-700 group-hover:bg-white dark:group-hover:bg-white group-focus:ring-4 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+      >
+        <svg
+          class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 9 4-4-4-4"
+          />
+        </svg>
+        <span class="sr-only">Next</span>
+      </span>
+    </button>
+  </div>
+
+  <div id="default-carousel" class="relative w-full" data-carousel="slide">
+    <!-- Carousel wrapper -->
+    <div class="relative wrapper h-[900px] overflow-hidden rounded-lg xl:h-[100vh]">
+      <h2 class="text-white font-lato font-bold text-5xl text-center mt-12 relative">
+        Our selection
+      </h2>
+      @each(movie in lastReleasedMovies)
+        <div
+          class="hidden duration-700 ease-in-out background"
+          data-carousel-item
+          style="background-image: url('/storage/uploads/banners/{{ movie.banner }}');"
+        >
+
+          <div class="shadow-wrapper">
+          </div>
+          <div class="lg:px-72 mt-40">
+            @!component('components/movie/movie', { movie })
+          </div>
+        </div>
+      @end
+      
+    </div>
+    <!-- Slider indicators -->
+    <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+      <button
+        type="button"
+        class="w-6 h-3"
+        aria-current="true"
+        aria-label="Slide 1"
+        data-carousel-slide-to="0"
+      ></button>
+      <button
+        type="button"
+        class="w-6 h-3"
+        aria-current="false"
+        aria-label="Slide 2"
+        data-carousel-slide-to="1"
+      ></button>
+      <button
+        type="button"
+        class="w-6 h-3"
+        aria-current="false"
+        aria-label="Slide 3"
+        data-carousel-slide-to="2"
+      ></button>
+
+    </div>
+    <!-- Slider controls -->
+    <button
+      type="button"
+      class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      data-carousel-prev
+    >
+      <span
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full dark:bg-gray-700 group-hover:bg-white dark:group-hover:bg-white group-focus:ring-4 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+      >
+        <svg
+          class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 1 1 5l4 4"
+          />
+        </svg>
+        <span class="sr-only">Previous</span>
+      </span>
+    </button>
+    <button
+      type="button"
+      class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      data-carousel-next
+    >
+      <span
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full dark:bg-gray-700 group-hover:bg-white dark:group-hover:bg-white group-focus:ring-4 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+      >
+        <svg
+          class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 9 4-4-4-4"
+          />
+        </svg>
+        <span class="sr-only">Next</span>
+      </span>
+    </button>
+  </div>
+
+  @if(auth.user && moviesToSuggest)
+    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+      <!-- Carousel wrapper -->
+      <div class="relative wrapper h-[900px] overflow-hidden rounded-lg xl:h-[100vh]">
+        <h2 class="text-white font-lato font-bold text-5xl text-center mt-12 relative">
+          For you
+        </h2>
+        @each(movie in moviesToSuggest)
+          <div
+            class="hidden duration-700 ease-in-out background"
+            data-carousel-item
+            style="background-image: url('/storage/uploads/banners/{{ movie.banner }}');"
+          >
+            <div class="shadow-wrapper">
+            </div>
+            <div class="lg:px-72 mt-40">
+              @!component('components/movie/movie', { movie })
+            </div>
+          </div>
+        @end
+        
+      </div>
+      <!-- Slider indicators -->
+      <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+        <button
+          type="button"
+          class="w-6 h-3 "
+          aria-current="true"
+          aria-label="Slide 1"
+          data-carousel-slide-to="0"
+        ></button>
+        <button
+          type="button"
+          class="w-6 h-3"
+          aria-current="false"
+          aria-label="Slide 2"
+          data-carousel-slide-to="1"
+        ></button>
+        <button
+          type="button"
+          class="w-6 h-3"
+          aria-current="false"
+          aria-label="Slide 3"
+          data-carousel-slide-to="2"
+        ></button>
+        <button
+          type="button"
+          class="w-6 h-3"
+          aria-current="false"
+          aria-label="Slide 3"
+          data-carousel-slide-to="2"
+        ></button>
+
+      </div>
+      <!-- Slider controls -->
+      <button
+        type="button"
+        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-prev
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full dark:bg-gray-700 group-hover:bg-white dark:group-hover:bg-white group-focus:ring-4 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 1 1 5l4 4"
+            />
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button
+        type="button"
+        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-next
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full dark:bg-gray-700 group-hover:bg-white dark:group-hover:bg-white group-focus:ring-4 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 9 4-4-4-4"
+            />
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+
+    </div>
+  @endif
 @end

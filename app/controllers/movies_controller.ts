@@ -33,7 +33,14 @@ export default class MoviesController {
     const userId = auth.user?.id
     const { movieDetailsVM, inWatchlist } = await this.movieService.getOne(params['slug'], userId)
 
-    return view.render('pages/movie/movie', { movie: movieDetailsVM, inWatchlist })
+    const shootingPictureResume = movieDetailsVM.shootingPictures.slice(0, 4)
+    console.log(shootingPictureResume)
+
+    return view.render('pages/movie/movie', {
+      movie: movieDetailsVM,
+      shootingPictureResume,
+      inWatchlist,
+    })
   }
 
   async getComing({ request, view }: HttpContext) {
@@ -91,9 +98,3 @@ export default class MoviesController {
     }
   }
 }
-// const movies = await Movie.query()
-// .preload('actors')
-// .where('movies.id', 1)
-// .join('movie_actors', 'movies.id', 'movie_actors.movie_id')
-// .join('actors', 'movie_actors.actor_id', 'actors.id')
-// .select('movies.*', 'actors.firstname')

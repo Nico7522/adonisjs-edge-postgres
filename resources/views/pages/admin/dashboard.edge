@@ -1,0 +1,28 @@
+@shared.layouts.admin({title: 'Admin dashboard'})
+
+  <h1 class="text-white text-4xl font-lato px-3 py-3 inline-flex gap-2 mx-5 ">
+    @svg('lucide:home', {
+        width: 30,
+        height: 40,
+        color: 'white'
+    })
+    Dashboard
+  </h1>
+
+  <div class="text-white font-lato flex flex-wrap border-b mx-5">
+    @!admin.stats.stats({stat: moviesCount.$extras.count, text: 'Total movies'})
+
+    @!admin.stats.stats({stat: unreleased.$extras.count, text: 'Unreleased'})
+
+    @!admin.stats.stats({stat: released, text: 'Released'})
+  </div>
+
+  <div class="text-white font-lato flex border-b mt-10 mb-5 mx-5">
+    @!admin.stats.stats({stat: totalUsers.$extras.count, text: 'Total users'})
+  </div>
+
+  <div class="text-white font-lato flex border-b mt-10 mb-5 mx-5">
+    @!admin.stats.stats({stat: totalActors.$extras.count, text: 'Total actors'})
+  </div>
+
+@end

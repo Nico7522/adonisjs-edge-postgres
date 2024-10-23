@@ -10,7 +10,11 @@ export default defineConfig({
   | will be scanned automatically from the "./commands" directory.
   |
   */
-  commands: [() => import('@adonisjs/core/commands'), () => import('@adonisjs/lucid/commands')],
+  commands: [
+    () => import('@adonisjs/core/commands'),
+    () => import('@adonisjs/lucid/commands'),
+    () => import('@adonisjs/mail/commands'),
+  ],
 
   /*
   |--------------------------------------------------------------------------
@@ -36,6 +40,7 @@ export default defineConfig({
     () => import('@adonisjs/static/static_provider'),
     () => import('@adonisjs/lucid/database_provider'),
     () => import('@adonisjs/auth/auth_provider'),
+    () => import('@adonisjs/mail/mail_provider'),
   ],
 
   /*
@@ -51,6 +56,9 @@ export default defineConfig({
     () => import('#start/kernel'),
     () => import('#start/global'),
     () => import('#start/rules/unique'),
+    () => import('#start/env'),
+    () => import('#start/view'),
+    () => import('#start/rules/password_matching'),
   ],
 
   /*

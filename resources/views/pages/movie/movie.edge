@@ -1,102 +1,141 @@
-
+@let(imagePlaceholder = "/storage/uploads/movies/placeholder.png")
 @shared.layouts({title : 'Movie details'})
   @if(movie)
+    <div class="background" style="background: url('/storage/uploads/banners/{{ movie.banner }}');">
+      <div class="flex flex-col text-white font-lato py-5 px-11 banner-content ">
 
-    <div class="flex flex-col relative text-white   font-reddit py-5 my-2 mx-11">
+        <div class="flex flex-col xl:flex-row">
 
-      <div class="flex flex-col xl:flex-row">
-        <img src="{{ movie.image }}" alt="" class="h-96 w-72 mx-5 my-5" />
-        <h3 class="pt-3 pb-5 text-4xl ml-5">
-          {{ movie.title }}
-        </h3>
+          {{-- Image + title --}}
+          <div class="flex-grow">
+            <h3 class="pl-5 border-l-8 border-l-gray-900 text-4xl ml-5 font-lato">
+              {{ movie.title }}
+            </h3>
+            @if(movie.image)
+              <img src="{{ movie.image }}" alt="" class="h-96 w-72 mx-5 my-5" />
+            @else
+              <img src="{{ imagePlaceholder }}" alt="" class="h-96 w-72 mx-5 my-5" />
 
-      </div>
-      <h4 class="mx-5 text-2xl">
-        Summary :
-      </h4>
-      <p class="mx-5 my-5 text-xl  break-words font-lato">
-        {{ movie.summary }}
-      </p>
-      <div class="flex items-center">
-        <h4 class="mx-5 my-5 text-2xl">
-          Rating :
-        </h4>
-        @each(item in movie.ratingStars)
-          <svg
-            class="w-4 h-4 {{ item.color }} me-1"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 22 20"
-          >
-            <path
-              d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-            />
-          </svg>
-        @end
-        
-      </div>
-      <div class="flex flex-col md:flex-row md:items-center">
-        <h4 class="mx-5 my-5 text-2xl">
-          Release date :
-        </h4>
-        <span class="bg-gray-900 px-2 rounded-lg border-2 ml-5 md:ml-0 border-blue-300 w-36 text-center">
-          {{ movie.releaseDate }} 
-        </span>
-      </div>
-      <div class="ml-5 md:-ml-1 my-5 flex flex-col md:flex-row md:items-center justify-start">
-        <h4 class="md:mx-5 text-2xl">
-          Genres :
-        </h4>
-        @if(movie.genres.length === 0)
-          <div class=" bg-red-200 p-2 rounded-lg w-36 md:w-auto">
-            <span class="text-red-500">No genre for the moment</span>
+            @endif
+            
           </div>
-        @end
-        @each(genre in movie.genres)
 
-          @shared.button({href: '#', class: "self-start md:mx-2 my-3 p-2 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-            {{ genre.name }}
-          @end
+        </div>
+        {{-- Movie shooting pictures --}}
+        @if(movie.shootingPictures.length > 0)
+          <div class="flex flex-col flex-grow flex-wrap ml-5 mb-5 max-w-[1000px] ">
+            <h3 class="pl-5 text-4xl font-lato border-l-8 border-l-gray-900">
+              Pictures
+            </h3>
+            <div
+              class="flex items-center flex-wrap mt-5 transition-all duration-300 rounded-lg blur-sm hover:blur-none"
+            >
+
+              @each((picture, index) in shootingPictureResume)
+                <img src="{{ env.get('IMG_PATH') + 'shooting_movie_pictures/' +  picture }}" class="h-56 shadow-lg" />
+              @end
+              @shared.button({
+                type: 'button',
+                class: 'all-pictures top-5 ml-10 bg-gray-900 text-white px-2 py-2 rounded-lg w-32 text-center mt-5 font-reddit hover:bg-gray-800',
+                'data-modal-target': "default-modal",
+                'data-modal-toggle':"default-modal"
+              })
+                See more ...
+              @end
+              
+            </div>
+
+          </div>
+
         @end
-        
-      </div>
-      <div class="ml-5 lg:-ml-1 my-5 flex flex-col lg:flex-row lg:items-center justify-start">
-        <h4 class="lg:mx-5 text-2xl">
-          Actors :
+        <h4 class="mx-5 text-2xl pl-5 border-l-8 border-l-gray-900">
+          Summary :
         </h4>
-        @each(actor in movie.actors)
-          @shared.button({href: '#', class: "self-start lg:mx-2 my-3 p-2 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-            {{ actor.lastname + ' ' + actor.firstname }}
+        <p class="mx-5 my-5 text-xl  break-words font-lato">
+          {{ movie.summary }}
+        </p>
+        <div class="flex items-center">
+          <h4 class="mx-5 my-5 text-2xl pl-5 border-l-8 border-l-gray-900">
+            Rating :
+          </h4>
+          @each(item in movie.ratingStars)
+            <svg
+              class="w-4 h-4 {{ item.color }} me-1"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 22 20"
+            >
+              <path
+                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+              />
+            </svg>
           @end
           
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center">
+          <h4 class="mx-5 my-5 text-2xl pl-5 border-l-8 border-l-gray-900">
+            Release date :
+          </h4>
+          <span class="bg-gray-900 px-2 rounded-lg border-2 ml-5 md:ml-0 border-blue-300 w-36 text-center">
+            {{ movie.releaseDate }} 
+        </span>
+        </div>
+        <div class="ml-5 md:-ml-1 my-5 flex flex-col md:flex-row md:items-center justify-start">
+          <h4 class="md:mx-5 text-2xl pl-5 border-l-8 border-l-gray-900">
+            Genres :
+          </h4>
+          @if(movie.genres.length === 0)
+            <div class=" bg-red-200 p-2 rounded-lg w-36 md:w-auto">
+              <span class="text-red-500">No genre for the moment</span>
+            </div>
+          @end
+          @each(genre in movie.genres)
+
+            @shared.button({href: '#', class: "self-start md:mx-2 my-3 p-2 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+              {{ genre.name }}
+            @end
+          @end
+          
+        </div>
+        <div class="ml-5 lg:-ml-1 my-5 flex flex-col lg:flex-row lg:items-center justify-start">
+          <h4 class="lg:mx-5 text-2xl pl-5 border-l-8 border-l-gray-900">
+            Actors :
+          </h4>
+          @each(actor in movie.actors)
+            @shared.button({href: route('actor.show', {slug: actor.slug}), class: "self-start lg:mx-2 my-3 p-2 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+              {{ actor.lastname + ' ' + actor.firstname }}
+            @end
+            
+          @end
+        </div>
+        @if(auth.user)
+          <form
+            method="POST"
+            action="{{ route('watchlist.toggle', { slug: movie.slug }) }}"
+            class="h-12 ml-5 self-start flex justify-start items-center"
+          >
+            {{ csrfField() }}
+            @shared.button({type: 'submit', class: "my-3 p-2 border-2 border-blue-300 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+              {{ inWatchlist ? 'Remove from watchlist' : 'Add to watchlist' }}
+            @end
+            
+          </form>
+
         @end
-      </div>
-      @if(auth.user)
-        <form
-          method="POST"
-          action="{{ route('watchlist.toggle', { slug: movie.slug }) }}"
-          class="h-12 ml-5 self-start flex justify-start items-center"
-        >
-          {{ csrfField() }}
-          @shared.button({type: 'submit', class: "my-3 p-2 border-2 border-blue-300 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-            {{ inWatchlist ? 'Remove from watchlist' : 'Add to watchlist' }}
-          @end
-          
-        </form>
-
-      @end
-      
-      @flashMessage('error')
-        @!toasts.errorToast({text: flashMessages.values.error})
-
-      @end
         
-      @flashMessage('success')
-        @!toasts.successToast({text: flashMessages.values.success})
+        @flashMessage('error')
+          @!toasts.errorToast({text: flashMessages.values.error})
 
-      @end
-      
+        @end
+        
+        @flashMessage('success')
+          @!toasts.successToast({text: flashMessages.values.success})
+
+        @end
+        
+      </div>
+
     </div>
 
   @else
@@ -106,3 +145,7 @@
   @end
 @end
 
+
+@modals.shootingPictures({pictures: movie.shootingPictures})
+
+@end

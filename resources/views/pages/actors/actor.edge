@@ -1,0 +1,45 @@
+@shared.layouts({title: 'Actor'})
+
+  <div class="py-5 px-11 text-white ">
+
+    {{-- Actor presentation --}}
+    <div class="border-b pb-12">
+      <img src="{{ env.get('IMG_PATH') + 'actors/' + actor.image }}" class="w-[500px] h-[450px] shadow-xl" />
+      <h4 class="font-lato text-3xl font-bold my-5 pl-5 border-l-8 border-l-gray-900">
+        {{ actor.firstname + ' ' + actor.lastname }}
+      </h4>
+
+      <h4 class="font-lato font-bold text-3xl inline my-5 pl-5 border-l-8 border-l-gray-900">
+        Birthdate :
+      </h4>
+      <p class="inline text-2xl ">
+        {{ actor.birthdate ? actor.birthdate.toFormat('dd/M/yyyy') : 'Unknow' }}
+      </p>
+    </div>
+
+    {{-- Movie list --}}
+    <div class="">
+      <h1 class="font-lato text-3xl font-bold my-5 pl-5 border-l-8 border-l-gray-900">
+        Movies
+      </h1>
+
+      <div class="flex flex-wrap gap-3">
+        @each(movie in actor.movies)
+          <div class="">
+            <a
+              title="{{ movie.title }}"
+              href="{{ route('movies.show', {slug: movie.slug}) }}"
+              class="font-lato text-2xl"
+            >
+              <img src="{{ movie.image }}" class="w-56 h-72 hover:bg-gray-900 hover:cursor-pointer" />
+              {{ truncate(movie.title, 12) }}
+              
+            </a>
+          </div>
+        @end
+      </div>
+    </div>
+
+  </div>
+
+@end
