@@ -20,7 +20,7 @@ export default class LoginController {
     const user = await UserService.login(data as LoginForm)
 
     if (user.isEmailVerified === false) {
-      session.flash('accountUnconfirmed', 'Please confirm your account')
+      Helper.setFlashMessage(session, 'error', 'Please confirm your account')
       return response.redirect().back()
     }
     await auth.use('web').login(user, data.isRememberMe)
@@ -47,11 +47,13 @@ export default class LoginController {
         text: 'A email has been send to your email.',
       })
     } catch (error) {
+      let message
       if (error.status === 404) {
-        session.flash('error', 'User not found')
+        message = 'User not found'
       } else {
-        session.flash('error', 'Sorry, something went wrong')
+        message = 'Sorry, something went wrong'
       }
+      Helper.setFlashMessage(session, 'error', message)
       return response.redirect().back()
     }
   }

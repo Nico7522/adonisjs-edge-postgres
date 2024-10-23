@@ -52,18 +52,9 @@
     
   </div>
   <div class="mx-5">
-    <a
-      href="#_"
-      class="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md"
-    >
-      <span
-        class=" w-full h-12 bg-gradient-to-br from-[#7b9ec7] via-[#2c3779] to-[#021224] group-hover:from-[#021224] group-hover:via-[#2c3779] group-hover:to-[#7b9ec7] absolute  transition-all duration-700 border-2 border-transparent group-hover:border-[#7b9ec7] group-hover:translate-y-14"
-      ></span>
-      <span class="relative px-4 py-2 transition-all ease-in bg-gray-900 rounded-md ">
-        <span class="relative text-white font-lato">Details</span>
-      </span>
-    </a>
-
+    @shared.animatedButton({href: route('movies.show', {slug: movie.slug})})
+      Details
+    @end
   </div>
 
   {{-- @shared.button({href: route('movies.show', { slug: movie.slug}), class: "btn font-lato"})

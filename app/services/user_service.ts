@@ -2,9 +2,11 @@ import InvalidTokenException from '#exceptions/invalid_token_exception'
 import Token from '#models/token'
 import User from '#models/user'
 import Watchlist from '#models/watchlist'
+import { Exception } from '@adonisjs/core/exceptions'
 import { LoginForm } from '../forms/login-form.js'
 import { RegisterForm } from '../forms/register-form.js'
 import { TransactionClientContract } from '@adonisjs/lucid/types/database'
+import NotFoundException from '#exceptions/not_found_exception'
 
 export default class UserService {
   constructor() {}
@@ -42,13 +44,20 @@ export default class UserService {
   async verifyEmail(token: string) {
     const { isValid, userId } = await Token.verify(token, 'VERIFY_EMAIL')
 
-    const user = await User.find(userId)
+    if (!isValid) {
+      throw new InvalidTokenException()
+    }
+
+    if (!userId) {
+      throw new NotFoundException('User not found')
+    }
+
+    const user = await User.findOrFail(userId)
 
     if (isValid && user) {
       user.isEmailVerified = true
       user.save()
     }
-
     return isValid && user !== null
   }
 

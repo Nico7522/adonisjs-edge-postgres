@@ -66,9 +66,9 @@
             Register
           @end
             
-          @flashMessage('error')
+          @error('E_ERROR')
             <div class="text-red-600 text-center text-sm bg-red-200 py-5 rounded-lg">
-              {{ flashMessages.values.error }}
+              {{ $message }}
             </div>
           @end
           

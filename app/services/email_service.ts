@@ -38,14 +38,20 @@ export default class EmailService {
   ) {
     let token
     if (tokenType === 'verifyEmailToken') {
-      token = await Token.generatePasswordToken(user)
+      token = await Token.generateVerifyEmailToken(user)
     } else {
       token = await Token.generatePasswordToken(user)
     }
 
-    await this.sendEmail(user.email, 'nico.daddabbo7100@gmail.com', 'Password reset', template, {
-      firstname: user.firstname,
-      token,
-    })
+    await this.sendEmail(
+      user.email,
+      'nico.daddabbo7100@gmail.com',
+      'Account confirmation',
+      template,
+      {
+        firstname: user.firstname,
+        token,
+      }
+    )
   }
 }

@@ -17,10 +17,10 @@ const ProfilesController = () => import('#controllers/profiles_controller')
 const ActorsController = () => import('#controllers/actors_controller')
 const VerifyEmailsController = () => import('#controllers/auth/verify_emails_controller')
 const DashboardController = () => import('#controllers/admin/dashboard_controller')
+import TestsController from '#controllers/tests_controller'
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import TestsController from '#controllers/tests_controller'
-router.get('/test', [TestsController, 'sendEmail'])
+router.get('/test', [TestsController, 'test'])
 
 router.get('/', [HomeController, 'index']).as('home')
 
@@ -75,16 +75,18 @@ router
 
     router.post('/logout', [LogoutController, 'handle']).as('logout').use(middleware.auth())
 
+    // Show email form
     router
       .get('/forgot-password', [LoginController, 'showForgotPasswordPage'])
       .as('forgot-password.show')
-      .use(middleware.guest())
 
+    // Send token by email
     router
       .post('/forgot-password', [LoginController, 'sendForgotPasswordToken'])
       .as('forgot-password.store')
       .use(middleware.guest())
 
+    // Reset password
     router
       .post('/reset-password/:token', [LoginController, 'resetPassword'])
       .as('reset-password.store')

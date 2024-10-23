@@ -16,13 +16,7 @@
         Send
       @end
       
-      @flashMessage('accountConfirmed')
-        <div class="text-center bg-red-200 p-5 rounded-lg flex flex-col mt-5">
-          <span class="text-red-500">{{ flashMessages.values.accountConfirmed }}</span>
-        </div>
-      @end
-      
-      @flashMessage('error')
+      @error('E_ERROR')
         <div class="text-center bg-red-200 p-5 rounded-lg flex flex-col mt-5">
           <span class="text-red-500">{{ flashMessages.values.error }}</span>
         </div>

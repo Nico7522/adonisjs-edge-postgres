@@ -18,6 +18,8 @@
   padding: 0;
 }
 
+
+
 main {
   background: rgb(2,5,8);
   background: radial-gradient(circle, rgba(2,5,8,1) 45%, rgba(0,5,8,1) 100%);

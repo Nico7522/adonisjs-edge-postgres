@@ -5,7 +5,7 @@ import { registerValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
 import EmailService from '#services/email_service'
 import db from '@adonisjs/lucid/services/db'
-import Token from '#models/token'
+import Helper from '../../helpers/helper.js'
 
 @inject()
 export default class RegisterController {
@@ -22,13 +22,19 @@ export default class RegisterController {
     const trx = await db.transaction()
     try {
       const user = await this._userService.register(data as RegisterForm, trx)
-      await this._emailService.sendVerifyEmail(user)
+      await this._emailService.sendToken(user, 'emails/verify_email_html', 'verifyEmailToken')
 
       trx.commit()
       return response.redirect().toRoute('auth.email-sent.show')
     } catch (error) {
+      console.log(error)
+
       trx.rollback()
-      session.flash('error', 'Something went wrong during the process, please try later')
+      Helper.setFlashMessage(
+        session,
+        'error',
+        'Something went wrong during the process, please try later'
+      )
       return response.redirect().toRoute('auth.register.show')
     }
   }

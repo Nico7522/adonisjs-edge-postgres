@@ -30,13 +30,16 @@ export default class VerifyEmailsController {
 
   // Show the verify email sent page after sent back a confirmation email.
   async sentBackVerifyEmailToken({ request, view, response, session }: HttpContext) {
+    let message
+
     const data = await request.validateUsing(emailValidator)
 
     try {
       const user = await this._userService.GetByEmail(data.email)
 
       if (user?.isEmailVerified) {
-        session.flash('accountConfirmed', 'Account already confirmed')
+        message = 'Account already confirmed'
+        Helper.setFlashMessage(session, 'error', message)
         return response.redirect().back()
       }
 
@@ -47,7 +50,6 @@ export default class VerifyEmailsController {
         text: 'A email has been send to your email.',
       })
     } catch (error) {
-      let message
       if (error.status === 404) {
         message = 'User not found'
       } else {
