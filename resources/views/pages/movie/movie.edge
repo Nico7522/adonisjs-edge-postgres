@@ -2,7 +2,7 @@
 @shared.layouts({title : 'Movie details'})
   @if(movie)
     <div class="background" style="background: url('/storage/uploads/banners/{{ movie.banner }}');">
-      <div class="flex flex-col text-white font-lato py-5 px-11 banner-content ">
+      <div class="flex flex-col text-white font-lato py-5 px-11 banner-content-first ">
 
         <div class="flex flex-col xl:flex-row">
 
@@ -51,7 +51,7 @@
         <h4 class="mx-5 text-2xl pl-5 border-l-8 border-l-gray-900">
           Summary :
         </h4>
-        <p class="mx-5 my-5 text-xl  break-words font-lato">
+        <p class="mx-12 my-5 text-xl  break-words font-lato">
           {{ movie.summary }}
         </p>
         <div class="flex items-center">
@@ -74,11 +74,11 @@
           
         </div>
         <div class="flex flex-col md:flex-row md:items-center">
-          <h4 class="mx-5 my-5 text-2xl pl-5 border-l-8 border-l-gray-900">
+          <h4 class="ml-5 my-5 text-2xl pl-5 border-l-8 border-l-gray-900">
             Release date :
           </h4>
-          <span class="bg-gray-900 px-2 rounded-lg border-2 ml-5 md:ml-0 border-blue-300 w-36 text-center">
-            {{ movie.releaseDate }} 
+          <span class=" md:ml-0 mt-1 text-1xl w-36 text-center">
+            {{ movie.releaseDate.toFormat('dd/M/yyyy') }} 
         </span>
         </div>
         <div class="ml-5 md:-ml-1 my-5 flex flex-col md:flex-row md:items-center justify-start">
@@ -91,10 +91,8 @@
             </div>
           @end
           @each(genre in movie.genres)
+            <a href="#" class="bg-black py-1 px-2 rounded-md ml-2 hover:text-blue-500 underline">{{ genre.name }}</a>
 
-            @shared.button({href: '#', class: "self-start md:mx-2 my-3 p-2 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-              {{ genre.name }}
-            @end
           @end
           
         </div>
@@ -103,10 +101,10 @@
             Actors :
           </h4>
           @each(actor in movie.actors)
-            @shared.button({href: route('actor.show', {slug: actor.slug}), class: "self-start lg:mx-2 my-3 p-2 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-              {{ actor.lastname + ' ' + actor.firstname }}
-            @end
-            
+            <a
+              href="{{ route('actor.show', {slug: actor.slug}) }}"
+              class="bg-black py-1 px-2 rounded-md ml-2 hover:text-blue-500 underline"
+            >{{ actor.lastname + ' ' + actor.firstname }}</a>
           @end
         </div>
         @if(auth.user)
@@ -116,7 +114,9 @@
             class="h-12 ml-5 self-start flex justify-start items-center"
           >
             {{ csrfField() }}
-            @shared.button({type: 'submit', class: "my-3 p-2 border-2 border-blue-300 text-white bg-gray-900 focus:border-2 focus:border-blue-300  font-medium rounded-lg text-sm  text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
+            @shared.animatedButton({
+              type: 'submit'
+            })
               {{ inWatchlist ? 'Remove from watchlist' : 'Add to watchlist' }}
             @end
             

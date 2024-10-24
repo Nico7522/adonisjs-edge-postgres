@@ -2,6 +2,7 @@ import Actor from '#models/actor'
 import Genre from '#models/genre'
 import Movie from '#models/movie'
 import { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
+import { DateTime } from 'luxon'
 
 export type MovieVM = {
   type?: 'ViewModel'
@@ -18,7 +19,7 @@ export type MovieVM = {
 export type MovieDetailsVM = MovieVM & {
   actors: Actor[]
   realisator: string
-  releaseDate: string | null
+  releaseDate: DateTime | null
   genres: Genre[]
   shootingPictures: string[]
 }

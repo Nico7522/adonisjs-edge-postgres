@@ -1,13 +1,14 @@
 @let(nodeName = $props.has('href') ? 'a' : 'button')
+@let(backgroundColor = bgColor || 'bg-gray-900'  )
+
 <{{nodeName}}
 {{$props.toAttrs()}}
-class="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md">
+class="text-white w-44 h-10 group relative {{backgroundColor}} overflow-hidden flex justify-center items-center rounded-lg"
+>
 <span
-  class=" w-full h-10 bg-gradient-to-br from-[#7b9ec7] via-[#2c3779] to-[#021224] group-hover:from-[#021224] group-hover:via-[#2c3779] group-hover:to-[#7b9ec7] absolute  transition-all duration-700 border-2 border-transparent group-hover:border-[#7b9ec7] group-hover:translate-y-14"
+  class="block absolute -right-3 w-12 h-32 -mt-12 transition-all duration-700 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-48 ease"
 ></span>
-<span class="relative px-2 py-1 transition-all ease-in bg-gray-900 rounded-md ">
-  <span class="relative text-white font-lato">
+<span class="">
   {{{ await $slots.main() }}}
-  </span>
 </span>
 </{{nodeName}}>

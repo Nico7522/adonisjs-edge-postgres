@@ -1,85 +1,120 @@
 @shared.layouts({title: 'Your watchlist'})
 
-  <main class="flex">
-    <div class="w-72 h-[100vh] bg-gray-900 mt-5 ml-5 rounded-md shadow-lg">
-      <ul class="text-white text-center font-extralight text-2xl ">
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          All
-        </li>
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          Action
-        </li>
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          Fantasy
-        </li>
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          Horror
-        </li>
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          Drame
-        </li>
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          Fiction
-        </li>
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          Not watched
-        </li>
-        <li class="py-[1.50rem] hover:bg-slate-500">
-          Watched
-        </li>
-      </ul>
+  <main class="flex flex-col">
+
+    {{-- Banner --}}
+    <div class="relative h-96">
+      <div class="background" style="background-image: url('/public/watchlist-banner.jpg');">
+        <div class="watchlist-banner h-full">
+        </div>
+        {{-- Side nav --}}
+      </div>
     </div>
 
-    <div class="h-[100vh] text-white bg-gray-900 my-5 mx-5 rounded-md shadow-lg">
-      <h2 class="text-3xl  font-lato p-5">
-        Your watchlist
-      </h2>
+    {{-- Content --}}
 
-      @if(watchlist.movies)
-        <div class="grid grid-cols-5 gap-4">
+    <div class="flex">
+      {{-- Side nav --}}
+      <div class="w-72 h-[100vh] mt-5 ml-5 rounded-md shadow-lg">
+        <ul class="text-white text-center font-lato ">
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              All
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              Action
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              Fantasy
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              Horror
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              Comedie
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              Romance
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              Watched
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a href="#" class="py-[1.50rem] w-full block h-full">
+              Not Watched
+            </a>
+          </li>
+        </ul>
+      </div>
 
-          @each(movie in watchlist.movies)
-            <div class=" flex flex-col items-center justify-center">
-              <div class="relative group">
+      {{-- // Watchlist content --}}
+      <div class="h-[100vh] text-white  my-5 mx-5 rounded-md shadow-lg">
+        <h2 class="text-3xl  font-lato p-5">
+          Your watchlist
+        </h2>
 
-                <div class="absolute opacity-110 w-full h-full backdrop-blur-sm hover:backdrop-blur-none">
+        @if(watchlist.movies)
+          <div class="grid grid-cols-5 gap-4">
 
-                  <div class=" mt-32 w-full flex items-center justify-center">
-                    <span
-                      class="opacity-0 transition-all ease-in duration-300 group-hover:opacity-100 z-10 font-bold text-white inline"
-                    >watched
-                    
-                  </span>
-                    <span
-                      class="opacity-0 transition-all ease-in duration-300 group-hover:opacity-100 font-bold  text-white inline"
-                    >
-                      @svg('lucide:check')
-
+            @each(movie in watchlist.movies)
+              <div class=" flex flex-col items-center justify-center">
+                <div class="relative group">
+                  @if(movie.pivot_watched)
+                    <span class="absolute bottom-3 right-1 font-bold text-white inline">
+                      @svg('lucide:circle-check', {
+                      width: 40,
+                      height: 40,
+                      color: "green"
+                      })
                     </span>
 
-                  </div>
+                  @end
+                  <img
+                    src="{{ movie.image }}"
+                    title="{{ movie.title }}"
+                    class="m-auto pl-2 my-2 h-96 w-[270px] shadow-2xl"
+                  />
                 </div>
-                <img src="{{ movie.image }}" class="m-auto ml-5 my-2 h-96 w-[270px] shadow-2xl" />
-              </div>
-              <h3 class="pl-5 text-2xl font-lato text-center">
-                {{ movie.title }}
-              </h3>
-              <div>
-                @shared.animatedButton({})
-                  Remove
-                @end
-                @shared.animatedButton({})
-                  Toggle watched
-                @end
-                
-              </div>
-            </div>
-          @end
-        </div>
 
-      @end
+                <div class="flex mt-5  items-center justify-center gap-1">
+                  <form class="h-0 flex items-center justify-center">
+                    <button
+                      type="button"
+                      class="text-white whitespace-nowrap bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 text-center"
+                    >Remove</button>
+
+                  </form>
+
+                  <form class="h-0 flex items-center justify-center">
+                    <button
+                      type="button"
+                      class="text-white whitespace-nowrap bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 text-center  dark:bg-blue-800 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >I watched it</button>
+
+                  </form>
+
+                </div>
+              </div>
+            @end
+          </div>
+
+        @end
+      </div>
+
     </div>
 
-  </main>
-
-@end
+  @end
+  

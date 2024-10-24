@@ -49,13 +49,7 @@ export default class Movie extends BaseModel {
       title: movie.title,
       banner: this.banner,
       shootingPictures: this.pictures?.map((p) => p.image),
-      releaseDate: this.releaseDate
-        ? new Date(this.releaseDate.toString()).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        : null,
+      releaseDate: this.releaseDate ? this.releaseDate : null,
       ratingStars: this.#setRatingStars(movie),
       actors: this.actors,
       genres: this.genres,
@@ -80,7 +74,7 @@ export default class Movie extends BaseModel {
   @column()
   declare banner: string | null
 
-  @column()
+  @column.dateTime()
   declare releaseDate: DateTime | null
 
   @column()

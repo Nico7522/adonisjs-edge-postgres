@@ -55,6 +55,18 @@
     @shared.animatedButton({href: route('movies.show', {slug: movie.slug})})
       Details
     @end
+    
+    {{-- <a
+      href="{{ route('movies.show', {slug: movie.slug}) }}"
+      class="text-white w-44 h-10 group relative bg-gray-900 overflow-hidden flex justify-center items-center rounded-lg"
+    >
+      <span
+        class="block absolute -right-3 w-12 h-32 -mt-12 transition-all duration-700 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-48 ease"
+      ></span>
+      <span class="">
+        Details
+    </span>
+    </a> --}}
   </div>
 
   {{-- @shared.button({href: route('movies.show', { slug: movie.slug}), class: "btn font-lato"})

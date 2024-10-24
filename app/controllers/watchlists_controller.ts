@@ -9,7 +9,7 @@ export default class WatchlistsController {
     await auth.user?.load('watchlist')
     const watchlistId = auth.user!.watchlist.id
     const watchlist = await this._watchlistService.get(watchlistId)
-
+    console.log(watchlist.movies[0])
     return view.render('pages/watchlist/watchlist', { watchlist })
   }
 
