@@ -1,44 +1,85 @@
 @shared.layouts({title: 'Your watchlist'})
 
-  <div class="h-[100vh] text-white bg-gray-900 my-5 mx-5 rounded-md shadow-lg">
-    <h2 class="text-3xl  font-lato p-5 border-b">
-      Your watchlist
-    </h2>
+  <main class="flex">
+    <div class="w-72 h-[100vh] bg-gray-900 mt-5 ml-5 rounded-md shadow-lg">
+      <ul class="text-white text-center font-extralight text-2xl ">
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          All
+        </li>
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          Action
+        </li>
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          Fantasy
+        </li>
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          Horror
+        </li>
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          Drame
+        </li>
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          Fiction
+        </li>
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          Not watched
+        </li>
+        <li class="py-[1.50rem] hover:bg-slate-500">
+          Watched
+        </li>
+      </ul>
+    </div>
 
-    @if(watchlist.movies)
-      <div class="grid grid-cols-5 gap-4">
-        @each(movie in watchlist.movies)
-          <div class=" flex flex-col items-center justify-center">
-            <div class="relative">
-              <div class="absolute opacity-70  w-full h-full backdrop-blur-sm">
-                <div class="group mt-32 w-full flex flex-col items-center justify-center">
-                  <span class="opacity-0 transition-all ease-in duration-300 group-hover:opacity-100">Watched</span>
-                  @svg('lucide:eye', {
-                            width: 70,
-                            height : 70
-                  })
+    <div class="h-[100vh] text-white bg-gray-900 my-5 mx-5 rounded-md shadow-lg">
+      <h2 class="text-3xl  font-lato p-5">
+        Your watchlist
+      </h2>
 
+      @if(watchlist.movies)
+        <div class="grid grid-cols-5 gap-4">
+
+          @each(movie in watchlist.movies)
+            <div class=" flex flex-col items-center justify-center">
+              <div class="relative group">
+
+                <div class="absolute opacity-110 w-full h-full backdrop-blur-sm hover:backdrop-blur-none">
+
+                  <div class=" mt-32 w-full flex items-center justify-center">
+                    <span
+                      class="opacity-0 transition-all ease-in duration-300 group-hover:opacity-100 z-10 font-bold text-white inline"
+                    >watched
+                    
+                  </span>
+                    <span
+                      class="opacity-0 transition-all ease-in duration-300 group-hover:opacity-100 font-bold  text-white inline"
+                    >
+                      @svg('lucide:check')
+
+                    </span>
+
+                  </div>
                 </div>
+                <img src="{{ movie.image }}" class="m-auto ml-5 my-2 h-96 w-[270px] shadow-2xl" />
               </div>
-              <img src="{{ movie.image }}" class="m-auto my-2 h-96 w-[270px] shadow-2xl" />
-            </div>
-            <h3 class="pl-5 text-2xl font-lato text-center">
-              {{ movie.title }}
-            </h3>
-            <div>
-              @shared.animatedButton({})
-                Remove
-              @end
-              @shared.animatedButton({})
-                Toggle watched
-              @end
+              <h3 class="pl-5 text-2xl font-lato text-center">
+                {{ movie.title }}
+              </h3>
+              <div>
+                @shared.animatedButton({})
+                  Remove
+                @end
+                @shared.animatedButton({})
+                  Toggle watched
+                @end
                 
+              </div>
             </div>
-          </div>
-        @end
-      </div>
+          @end
+        </div>
 
-    @end
-  </div>
+      @end
+    </div>
+
+  </main>
 
 @end
