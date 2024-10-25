@@ -13,6 +13,7 @@ export default class WatchlistService {
       query.if(qs.genre, (query) => {
         query.whereHas('genres', (query) => query.where('name', genre))
       })
+      query.if(qs.watched, (query) => query.where('watched', qs.watched))
     })
 
     return watchlist

@@ -72,12 +72,18 @@
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { watched: true }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
               Watched
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { watched: false }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
               Unwatched
             </a>
           </li>
