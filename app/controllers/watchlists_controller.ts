@@ -1,15 +1,17 @@
 import WatchlistService from '#services/watchlist_service'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import Helper from '../helpers/helper.js'
 
 @inject()
 export default class WatchlistsController {
   constructor(private _watchlistService: WatchlistService) {}
-  async index({ view, auth }: HttpContext) {
+  async index({ view, auth, request }: HttpContext) {
+    const qs = request.qs()
+
     await auth.user?.load('watchlist')
     const watchlistId = auth.user!.watchlist.id
-    const watchlist = await this._watchlistService.get(watchlistId)
-    console.log(watchlist.movies[0])
+    const watchlist = await this._watchlistService.get(watchlistId, qs)
     return view.render('pages/watchlist/watchlist', { watchlist })
   }
 
@@ -19,10 +21,10 @@ export default class WatchlistsController {
 
     try {
       await this._watchlistService.toggle(userId, slug)
-      session.flash('success', 'Succefully toggled')
+      Helper.setFlashMessage(session, 'success', 'Movie toggled !', undefined, false)
       response.redirect().back()
     } catch (error) {
-      session.flash('error', 'Something wrong')
+      Helper.setFlashMessage(session, 'error', 'Something went wrong')
       response.redirect().back()
     }
   }
@@ -33,11 +35,10 @@ export default class WatchlistsController {
 
     try {
       await this._watchlistService.toggleWatched(userId, slug)
-      session.flash('success', 'Movie updated !')
+      Helper.setFlashMessage(session, 'success', 'Updated !', undefined, false)
       response.redirect().back()
     } catch (error) {
-      session.flash('error', 'Something wrong')
-      console.log(error)
+      Helper.setFlashMessage(session, 'error', 'Something went wrong')
       response.redirect().back()
     }
   }

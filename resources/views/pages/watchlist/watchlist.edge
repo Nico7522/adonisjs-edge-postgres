@@ -7,44 +7,68 @@
       <div class="background" style="background-image: url('/public/watchlist-banner.jpg');">
         <div class="watchlist-banner h-full">
         </div>
+
         {{-- Side nav --}}
       </div>
     </div>
 
     {{-- Content --}}
-
     <div class="flex">
+
       {{-- Side nav --}}
       <div class="w-72 h-[100vh] mt-5 ml-5 rounded-md shadow-lg">
         <ul class="text-white text-center font-lato ">
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
+            <a href="{{ route('watchlist.index') }}" class="py-[1.50rem] w-full block h-full">
               All
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { genre: 'action' }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
               Action
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { genre: 'fantasy' }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
               Fantasy
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
-              Horror
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { genre: 'thriller' }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
+              Thriller
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
-              Comedie
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { genre: 'drama' }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
+              Drama
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
-            <a href="#" class="py-[1.50rem] w-full block h-full">
-              Romance
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { genre: 'crime' }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
+              Crime
+            </a>
+          </li>
+          <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
+            <a
+              href="{{ route('watchlist.index', {}, { qs: { genre: 'adventure' }}) }}"
+              class="py-[1.50rem] w-full block h-full"
+            >
+              Adventure
             </a>
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
@@ -54,25 +78,33 @@
           </li>
           <li class="hover:-translate-y-1 hover:translate-x-1 transition-all duration-200 ease-in">
             <a href="#" class="py-[1.50rem] w-full block h-full">
-              Not Watched
+              Unwatched
             </a>
           </li>
         </ul>
       </div>
 
       {{-- // Watchlist content --}}
-      <div class="h-[100vh] text-white  my-5 mx-5 rounded-md shadow-lg">
+      <div class=" h-[100vh] text-white  my-5 mx-5 rounded-md shadow-lg">
+        @flashMessage('success')
+          @!toasts.successToast({text: flashMessages.values.success})
+        @end
+        @error('E_ERROR')
+          @!toasts.errorToast({text: $message})
+        @end
+        
+        
         <h2 class="text-3xl  font-lato p-5">
           Your watchlist
         </h2>
 
-        @if(watchlist.movies)
+        @if(watchlist.movies.length > 0)
           <div class="grid grid-cols-5 gap-4">
 
             @each(movie in watchlist.movies)
               <div class=" flex flex-col items-center justify-center">
                 <div class="relative group">
-                  @if(movie.pivot_watched)
+                  @if(movie.$extras.pivot_watched)
                     <span class="absolute bottom-3 right-1 font-bold text-white inline">
                       @svg('lucide:circle-check', {
                       width: 40,
@@ -90,17 +122,27 @@
                 </div>
 
                 <div class="flex mt-5  items-center justify-center gap-1">
-                  <form class="h-0 flex items-center justify-center">
+                  <form
+                    class="h-0 flex items-center justify-center"
+                    method="POST"
+                    action="{{ route('watchlist.toggle', {slug: movie.slug}) }}"
+                  >
+                    {{ csrfField() }}
                     <button
-                      type="button"
+                      type="submit"
                       class="text-white whitespace-nowrap bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 text-center"
                     >Remove</button>
 
                   </form>
 
-                  <form class="h-0 flex items-center justify-center">
+                  <form
+                    class="h-0 flex items-center justify-center"
+                    method="POST"
+                    action="{{ route('watchlist.toggle.watched', {slug: movie.slug}) }}"
+                  >
+                    {{ csrfField() }}
                     <button
-                      type="button"
+                      type="submit"
                       class="text-white whitespace-nowrap bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 text-center  dark:bg-blue-800 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >I watched it</button>
 
@@ -111,7 +153,12 @@
             @end
           </div>
 
-        @end
+        @else
+          <h3 class="ml-5 text-2xl inline">
+            List empty
+          </h3>
+          <a href="{{ route('movies.index') }}" class=" underline">Add movies</a>
+        @endif
       </div>
 
     </div>

@@ -2,15 +2,26 @@ import Movie from '#models/movie'
 import Watchlist from '#models/watchlist'
 
 export default class WatchlistService {
-  async get(watchlistId: number) {
-    const watchlist = await Watchlist.findOrFail(watchlistId)
-    await watchlist.load('movies')
+  async get(watchlistId: number, qs: Record<string, any>) {
+    let genre: string = qs.genre
+
+    // Transform the first letter to uppercase
+    if (genre) genre = genre.replace(/^./, genre[0].toUpperCase())
+
+    const watchlist = await Watchlist.query().where('id', watchlistId).firstOrFail()
+    await watchlist.load('movies', (query) => {
+      query.if(qs.genre, (query) => {
+        query.whereHas('genres', (query) => query.where('name', genre))
+      })
+    })
+
     return watchlist
   }
 
   async toggle(userId: number, slug: string) {
     const movie = await Movie.query().where('slug', slug).firstOrFail()
     const watchlist = await Watchlist.query()
+
       .preload('movies', (query) => {
         query.where('slug', slug)
       })
@@ -27,17 +38,15 @@ export default class WatchlistService {
   }
 
   async toggleWatched(userId: number, slug: string) {
-    await Movie.query().where('slug', slug).firstOrFail()
     const watchlist = await Watchlist.query()
-      .preload('movies', (query) => {
-        query.where('slug', slug)
-      })
       .where('user_id', userId)
+      .preload('movies', (query) => query.where('slug', slug))
       .firstOrFail()
 
     await watchlist
-      ?.related('movies')
+      .related('movies')
       .pivotQuery()
+      .wherePivot('movie_id', watchlist.movies[0].id)
       .update('watched', !watchlist.movies[0].$extras.pivot_watched)
 
     await watchlist.save()
