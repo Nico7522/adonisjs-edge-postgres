@@ -1,17 +1,14 @@
 @shared.layouts({title: "Login"})
-  <div class="flex flex-col items-center  mt-6 px-6 py-8 mx-auto md:h-screen lg:py-0">
+  <div class="flex flex-col items-center  px-6 py-8 mx-auto  md:h-screen lg:py-0">
 
-    {{-- <div style="background: url('/public/batman.png'); width: 500px; height: 500px">
-    </div> --}}
-    <div
-      class="w-full rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 bg-gray-900 dark:border-gray-700"
-    >
+    <div class="w-full rounded-lg md:mt-0 sm:max-w-md">
+
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1
-          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white  font-lato"
-        >
-          Sign in
-        </h1>
+
+        <div style="" class="">
+          <img src="/public//login2.jpg" class="" />
+        </div>
+
         <form class="space-y-4 md:space-y-6 w-full" method="POST" action="{{ route('auth.login.store') }}">
           {{ csrfField() }}
           <div>
@@ -49,10 +46,13 @@
               class="text-sm text-blue-400 font-medium text-primary-600 hover:underline dark:text-primary-500"
             >Forgot password ?</a>
           </div>
-
-          @shared.button({type: 'submit', class: "w-full bg-gray-700 text-white bg-primary-600 focus:border-2 focus:border-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 "})
-            Sign in
+          @shared.animatedButton({
+            type: 'submit',
+            bgColor: 'bg-gray-700'
+          })
+            Login
           @end
+          
           @error('E_INVALID_CREDENTIALS')
             <div class="text-center bg-red-200 p-5 rounded-lg">
               <span class="text-red-500">Bad credentials</span>

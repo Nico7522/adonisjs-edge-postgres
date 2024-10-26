@@ -54,6 +54,7 @@ export default class MoviesController {
       title: 'Coming movies',
       sortOptions: this.sortOptions,
       filter: qs,
+      display: request.qs().display,
     })
   }
 
@@ -65,6 +66,7 @@ export default class MoviesController {
       title: 'Top movies',
       sortOptions: this.sortOptions,
       filter: qs,
+      display: request.qs().display,
     })
   }
 
