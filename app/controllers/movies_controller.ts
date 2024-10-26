@@ -19,6 +19,7 @@ export default class MoviesController {
   async index({ request, view }: HttpContext) {
     const page = request.input('page')
     const qs = request.qs()
+
     const { moviesVM, pagination } = await this.movieService.getMovie(page, qs)
 
     return view.render('pages/movie/movies', {
@@ -26,6 +27,7 @@ export default class MoviesController {
       pagination: pagination,
       sortOptions: this.sortOptions,
       filter: qs,
+      display: request.qs().display,
     })
   }
 

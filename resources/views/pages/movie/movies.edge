@@ -1,18 +1,50 @@
+@let(displayMode = display || 'inline')
 @shared.layouts({title: 'All movies'})
 
   <div class="lg:px-72">
-    @!form.filter({sortOptions, filter})
-    @if(pagination)
-      @each((movie, index) in moviesVM.movies)
 
-        @!movie.movie({ movie, last: index + 1 === moviesVM.movies.length })
-      @end
-    @else
-      @each((movie, index) in movies)
-        @!movie.movie({ movie, last: index + 1 === movies.length })
-      @end
-    @endif
+    <div class="flex md:flex-row flex-col md:items-center justify-between">
+      @!form.filter({sortOptions, filter})
+      <div class="flex items-center md:justify-center ml-7 md:ml-0">
+        <a href="{{ route(request.ctx.route.name, {}, {qs: { display: 'block' }}) }}">
+          <button type="submit">
+            @svg('lucide:blocks', {
+              width: 30,
+              height: 30,
+              color: "white"
+            })
+          </button>
+
+        </a>
+        <a class="mt-1" href="{{ route(request.ctx.route.name, {}, {qs: { display: 'inline' }}) }}">
+          <button>
+            @svg('lucide:align-justify', {
+              width: 30,
+              height: 30,
+              color: "white"
+            })
+          </button>
+
+        </a>
+
+      </div>
+
+    </div>
+    @if(pagination)
+
+      <div class=" {{ displayMode === 'inline' ? 'flex flex-col': 'grid grid-cols-1 md:grid-cols-2 ' }}">
+        @each((movie, index) in moviesVM.movies)
+
+          @!movie.movie({ movie, last: index + 1 === moviesVM.movies.length })
+        @end
+      @else
+        @each((movie, index) in movies)
+          @!movie.movie({ movie, last: index + 1 === movies.length })
+        @end
+      @endif
       
+    </div>
+
     @if(pagination)
       <div class="flex mb-5 ml-5  items-start gap-2 xl:w-96">
         @if(moviesVM.hasPages)
